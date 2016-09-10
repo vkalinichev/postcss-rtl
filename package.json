@@ -1,0 +1,34 @@
+{
+  "name": "postcss-rtl",
+  "version": "0.0.0",
+  "description": "PostCSS plugin for RTL-optimizations",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "rtl",
+    "right-to-left",
+    "left-to-right"
+  ],
+  "author": "Vladimir Kalinichev <wrumly@gmail.com>",
+  "license": "MIT",
+  "repository": "vkalinichev/postcss-rtl",
+  "bugs": {
+    "url": "https://github.com/vkalinichev/postcss-rtl/issues"
+  },
+  "homepage": "https://github.com/vkalinichev/postcss-rtl",
+  "dependencies": {
+    "postcss": "^5.2.0"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "eslint": "^3.5.0",
+    "eslint-config-postcss": "^2.0.2"
+  },
+  "scripts": {
+    "test": "ava && eslint *.js"
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-postcss/es5"
+  }
+}
