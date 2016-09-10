@@ -43,3 +43,12 @@ test('Creating RTL rule for float: right', t => {
         '[dir="rtl"] a { float: left }',
     { });
 });
+
+
+test('Creating RTL rule for full margin', t => {
+    return run(t,
+        'a { margin: 13px 7px 6px 2px }',
+        'a { margin: 13px 7px 6px 2px }\n' +
+        '[dir="rtl"] a { margin: 13px 2px 6px 7px }',
+    { });
+});

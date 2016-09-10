@@ -6,6 +6,11 @@ function toggleDirection( direction ) {
     return direction === 'left' ? 'right' : 'left';
 }
 
+function reverseRoundedValues( values ) {
+    const arr = values.split( /\s+/ );
+    return [ arr[0], arr[3], arr[2], arr[1] ].join( ' ' );
+}
+
 module.exports = postcss.plugin('postcss-rtl', function () {
     return css => {
         css.walkRules( rule => {
@@ -14,7 +19,7 @@ module.exports = postcss.plugin('postcss-rtl', function () {
 
             rule.walkDecls( decl => {
                 const prop = decl.prop,
-                      value = decl.value;
+                    value = decl.value;
 
                 switch ( prop ) {
                 case 'text-align':
@@ -27,13 +32,23 @@ module.exports = postcss.plugin('postcss-rtl', function () {
                         });
                     }
                     break;
+                case 'margin':
+                    if ( !value.match( /^(\w+\s+){3}\w+$/ ) ) break;
+
+                    declsStack.push({
+                        type:  'decl',
+                        prop:  prop,
+                        value: reverseRoundedValues( value )
+                    });
+
+                    break;
                 default:
                 }
             });
 
             if ( declsStack.length ) {
                 const newSelector = `[dir="rtl"] ${ rule.selector }`,
-                      newRule = postcss.rule({ selector: newSelector });
+                    newRule = postcss.rule({ selector: newSelector });
                 newRule.append( declsStack );
                 rule.parent.insertAfter( rule, newRule );
             }
