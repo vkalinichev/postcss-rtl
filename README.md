@@ -8,13 +8,17 @@
 
 ```css
 .foo {
-    /* Input example */
+    text-align: left;
 }
 ```
 
 ```css
 .foo {
-  /* Output example */
+    text-align: left;
+}
+
+[dir="rtl"] {
+    text-align: right;
 }
 ```
 
