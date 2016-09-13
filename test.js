@@ -44,11 +44,34 @@ test('Creating RTL rule for float: right', t => {
     { });
 });
 
-
 test('Creating RTL rule for full margin', t => {
     return run(t,
         'a { margin: 13px 7px 6px 2px }',
         'a { margin: 13px 7px 6px 2px }\n' +
         '[dir="rtl"] a { margin: 13px 2px 6px 7px }',
+    { });
+});
+
+test('Creating RTL rule for full padding', t => {
+    return run(t,
+        'a { padding: 0 7px 2em 2rem }',
+        'a { padding: 0 7px 2em 2rem }\n' +
+        '[dir="rtl"] a { padding: 0 2rem 2em 7px }',
+    { });
+});
+
+test('Creating RTL rule for border-width', t => {
+    return run(t,
+        'a { padding: 1px 1px 1px 0 }',
+        'a { padding: 1px 1px 1px 0 }\n' +
+        '[dir="rtl"] a { padding: 1px 0 1px 1px }',
+    { });
+});
+
+test('Creating RTL rule for border-style', t => {
+    return run(t,
+        'a { padding: solid solid solid dotted }',
+        'a { padding: solid solid solid dotted }\n' +
+        '[dir="rtl"] a { padding: solid dotted solid solid }',
     { });
 });

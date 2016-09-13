@@ -14,7 +14,7 @@ function reverseRoundedValues( values ) {
 module.exports = postcss.plugin('postcss-rtl', function () {
     return css => {
         css.walkRules( rule => {
-            let declsStack = [];
+            let rtlDecls = [];
             if ( rule.selector.match( /\[dir=.+]/ ) ) return;
 
             rule.walkDecls( decl => {
@@ -25,7 +25,7 @@ module.exports = postcss.plugin('postcss-rtl', function () {
                 case 'text-align':
                 case 'float':
                     if ( value === 'left' || value === 'right' ) {
-                        declsStack.push({
+                        rtlDecls.push({
                             type:  'decl',
                             prop:  prop,
                             value: toggleDirection( decl.value )
@@ -33,9 +33,12 @@ module.exports = postcss.plugin('postcss-rtl', function () {
                     }
                     break;
                 case 'margin':
+                case 'padding':
+                case 'border-style':
+                case 'border-width':
                     if ( !value.match( /^(\w+\s+){3}\w+$/ ) ) break;
 
-                    declsStack.push({
+                    rtlDecls.push({
                         type:  'decl',
                         prop:  prop,
                         value: reverseRoundedValues( value )
@@ -46,10 +49,10 @@ module.exports = postcss.plugin('postcss-rtl', function () {
                 }
             });
 
-            if ( declsStack.length ) {
+            if ( rtlDecls.length ) {
                 const newSelector = `[dir="rtl"] ${ rule.selector }`,
                     newRule = postcss.rule({ selector: newSelector });
-                newRule.append( declsStack );
+                newRule.append( rtlDecls );
                 rule.parent.insertAfter( rule, newRule );
             }
         });
