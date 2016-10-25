@@ -14,7 +14,9 @@ function dirRule( css, rule, dir ) {
         newRule,
         selector = `[dir="${ dir }"] ${ rule.selector }`;
 
-    css.walkRules( selector, rule => existedRule = rule );
+    css.walkRules( selector, _rule => {
+        existedRule = _rule;
+    } );
 
     if ( existedRule ) return existedRule;
 
@@ -24,12 +26,12 @@ function dirRule( css, rule, dir ) {
     return newRule;
 }
 
-function getLtrRule( css, rule ) {
-    return dirRule( css, rule, "ltr" )
-}
+// function getLtrRule( css, rule ) {
+//     return dirRule( css, rule, 'ltr' );
+// }
 
 function getRtlRule( css, rule ) {
-    return dirRule( css, rule, "rtl" )
+    return dirRule( css, rule, 'rtl' );
 }
 
 module.exports = postcss.plugin('postcss-rtl', function () {
@@ -71,7 +73,7 @@ module.exports = postcss.plugin('postcss-rtl', function () {
             });
 
             if ( rtlDecls.length ) {
-                getRtlRule( css, rule ).append( rtlDecls )
+                getRtlRule( css, rule ).append( rtlDecls );
             }
         });
     };
