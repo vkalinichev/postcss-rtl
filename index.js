@@ -1,6 +1,4 @@
-'use strict';
-
-var postcss = require('postcss');
+const postcss = require('postcss');
 
 function toggleDirection( direction ) {
     return direction === 'left' ? 'right' : 'left';
@@ -9,6 +7,29 @@ function toggleDirection( direction ) {
 function reverseRoundedValues( values ) {
     const arr = values.split( /\s+/ );
     return [ arr[0], arr[3], arr[2], arr[1] ].join( ' ' );
+}
+
+function dirRule( css, rule, dir ) {
+    let existedRule,
+        newRule,
+        selector = `[dir="${ dir }"] ${ rule.selector }`;
+
+    css.walkRules( selector, rule => existedRule = rule );
+
+    if ( existedRule ) return existedRule;
+
+    newRule = postcss.rule({ selector: selector });
+    rule.parent.insertAfter( rule, newRule );
+
+    return newRule;
+}
+
+function getLtrRule( css, rule ) {
+    return dirRule( css, rule, "ltr" )
+}
+
+function getRtlRule( css, rule ) {
+    return dirRule( css, rule, "rtl" )
 }
 
 module.exports = postcss.plugin('postcss-rtl', function () {
@@ -50,10 +71,7 @@ module.exports = postcss.plugin('postcss-rtl', function () {
             });
 
             if ( rtlDecls.length ) {
-                const newSelector = `[dir="rtl"] ${ rule.selector }`,
-                    newRule = postcss.rule({ selector: newSelector });
-                newRule.append( rtlDecls );
-                rule.parent.insertAfter( rule, newRule );
+                getRtlRule( css, rule ).append( rtlDecls )
             }
         });
     };
