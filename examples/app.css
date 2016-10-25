@@ -1,0 +1,17 @@
+.body {
+    color: red;
+}
+
+.paragraph p {
+    text-align: right;
+    float: left;
+}
+
+[dir="rtl"] .paragraph p {
+    color: lime;
+}
+
+.block .block__element b {
+    color: blue;
+    margin: 16px 2px 0 0;
+}
