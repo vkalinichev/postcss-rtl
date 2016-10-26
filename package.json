@@ -18,11 +18,13 @@
   },
   "homepage": "https://github.com/vkalinichev/postcss-rtl",
   "dependencies": {
-    "postcss": "^5.2.0"
+    "postcss": "^5.2.5",
+    "rtlcss": "^2.0.6"
   },
   "devDependencies": {
     "ava": "^0.16.0",
-    "eslint": "^3.5.0",
+    "babel-eslint": "^7.1.0",
+    "eslint": "^3.8.1",
     "eslint-config-postcss": "^2.0.2"
   },
   "scripts": {

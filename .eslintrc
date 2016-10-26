@@ -1,0 +1,25 @@
+{
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "modules": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "extends": [ "eslint:recommended" ],
+    "rules": {
+        "quotes": [ "error", "single" ],
+        "space-in-parens": [ "error", "always" ],
+        "object-curly-spacing": [ "error", "always"],
+        "no-console": [ "warn" ],
+        "no-unused-vars": [ "warn" ],
+        "indent": [ "error", 4, { "SwitchCase": 1 } ],
+        "semi": [ "error", "never" ]
+    }
+}
