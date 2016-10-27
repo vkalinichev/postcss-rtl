@@ -1,12 +1,13 @@
 {
   "name": "postcss-rtl",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "PostCSS plugin for RTL-optimizations",
   "keywords": [
     "postcss",
     "css",
     "postcss-plugin",
     "rtl",
+    "ltr",
     "right-to-left",
     "left-to-right"
   ],
