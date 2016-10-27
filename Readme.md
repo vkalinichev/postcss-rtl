@@ -33,7 +33,6 @@ This:
 .foo {
     margin-left: 13px;
     text-align: right;
-    
 }
 
 ```
@@ -60,17 +59,17 @@ This:
 ```
 Converts to:
 ```css
-html[dir].bar {
+html[dir] .bar {
     border-color: lightgray;
 }
 
-html[dir="ltr"] {
+html[dir="ltr"] .bar {
     float: right;
     border-width: 2px 0 2px 2px;
     border-style: solid dashed solid solid;
 }
 
-[dir="rtl"] .bar {
+html[dir="rtl"] .bar {
     float: left;
     border-width: 2px 2px 2px 0;
     border-style: solid solid solid dashed;
