@@ -1,80 +1,61 @@
-const postcss = require('postcss');
+const postcss = require ( 'postcss' )
+const rtlcss = require ( 'rtlcss' )
 
-function toggleDirection( direction ) {
-    return direction === 'left' ? 'right' : 'left';
+const getDirSelector = ( selector, dir ) => {
+    if ( dir )
+        return `html[dir="${ dir }"] ${ selector }`
+    else
+        return `html[dir] ${ selector }`
 }
 
-function reverseRoundedValues( values ) {
-    const arr = values.split( /\s+/ );
-    return [ arr[0], arr[3], arr[2], arr[1] ].join( ' ' );
+const getDirRule = ( rule, dir ) => {
+    const nextRule = rule.next()
+    const rtlSelector = getDirSelector( rule.selector, dir )
+
+    if ( nextRule && nextRule.selector === rtlSelector ) {
+        return nextRule
+    } else {
+        const newRule = postcss.rule( { selector: rtlSelector } )
+        rule.parent.insertAfter( rule, newRule )
+        return newRule
+    }
 }
 
-function dirRule( css, rule, dir ) {
-    let existedRule,
-        newRule,
-        selector = `[dir="${ dir }"] ${ rule.selector }`;
 
-    css.walkRules( selector, _rule => {
-        existedRule = _rule;
-    } );
+module.exports = postcss.plugin ( 'postcss-rtl', () => css =>
+    css.walkRules( rule => {
+        if ( rule.selector.indexOf( '[dir="' ) > -1 ) return
 
-    if ( existedRule ) return existedRule;
+        let hasSymmetricDecls = false
+        let ltrDecls = []
+        let rtlDecls = []
 
-    newRule = postcss.rule({ selector: selector });
-    rule.parent.insertAfter( rule, newRule );
+        rule.walkDecls( decl => {
+            const rtlResult = rtlcss.process( decl )
+            const isSimmetricDecl = rtlResult === decl.toString()
+            const [ prop, value ] = rtlResult.split( /:\s*/ )
 
-    return newRule;
-}
+            hasSymmetricDecls = hasSymmetricDecls || isSimmetricDecl
 
-// function getLtrRule( css, rule ) {
-//     return dirRule( css, rule, 'ltr' );
-// }
-
-function getRtlRule( css, rule ) {
-    return dirRule( css, rule, 'rtl' );
-}
-
-module.exports = postcss.plugin('postcss-rtl', function () {
-    return css => {
-        css.walkRules( rule => {
-            let rtlDecls = [];
-            if ( rule.selector.match( /\[dir=.+]/ ) ) return;
-
-            rule.walkDecls( decl => {
-                const prop = decl.prop,
-                    value = decl.value;
-
-                switch ( prop ) {
-                case 'text-align':
-                case 'float':
-                    if ( value === 'left' || value === 'right' ) {
-                        rtlDecls.push({
-                            type:  'decl',
-                            prop:  prop,
-                            value: toggleDirection( decl.value )
-                        });
-                    }
-                    break;
-                case 'margin':
-                case 'padding':
-                case 'border-style':
-                case 'border-width':
-                    if ( !value.match( /^(\w+\s+){3}\w+$/ ) ) break;
-
-                    rtlDecls.push({
-                        type:  'decl',
-                        prop:  prop,
-                        value: reverseRoundedValues( value )
-                    });
-
-                    break;
-                default:
-                }
-            });
-
-            if ( rtlDecls.length ) {
-                getRtlRule( css, rule ).append( rtlDecls );
+            if ( !isSimmetricDecl ) {
+                ltrDecls.push( decl )
+                rtlDecls.push( decl.clone( { prop, value } ) )
             }
-        });
-    };
-});
+        } )
+
+        if ( ltrDecls.length ) {
+            getDirRule( rule, 'rtl' ).append( rtlDecls )
+            const ltrDirRule = getDirRule( rule, 'ltr' )
+            ltrDecls.forEach( _decl => _decl.moveTo( ltrDirRule ) )
+        }
+
+        if ( hasSymmetricDecls ) {
+            rule.selector = 'html[dir] ' + rule.selector
+        }
+
+        if ( ltrDecls.length && !hasSymmetricDecls ) {
+            rule.remove()
+        }
+
+    } )
+)
