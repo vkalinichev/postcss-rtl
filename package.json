@@ -6,10 +6,11 @@
     "postcss",
     "css",
     "postcss-plugin",
+    "postcss plugin",
     "rtl",
     "ltr",
-    "right-to-left",
-    "left-to-right"
+    "right to left",
+    "left to right"
   ],
   "author": "Vladimir Kalinichev <wrumly@gmail.com>",
   "license": "MIT",
@@ -19,16 +20,20 @@
   },
   "homepage": "https://github.com/vkalinichev/postcss-rtl",
   "dependencies": {
-    "postcss": "^5.2.5",
     "rtlcss": "^2.0.6"
   },
   "devDependencies": {
     "ava": "^0.16.0",
     "babel-eslint": "^7.1.0",
     "eslint": "^3.8.1",
-    "eslint-config-postcss": "^2.0.2"
+    "eslint-config-postcss": "^2.0.2",
+    "gulp": "^3.9.1",
+    "gulp-postcss": "^6.2.0",
+    "gulp-sourcemaps": "^2.2.0"
   },
   "scripts": {
+    "demo": "gulp demo",
+    "start": "gulp",
     "test": "ava && eslint *.js"
   },
   "eslintConfig": {

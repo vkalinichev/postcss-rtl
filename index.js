@@ -1,5 +1,5 @@
-const postcss = require ( 'postcss' )
-const rtlcss = require ( 'rtlcss' )
+const postcss = require( 'postcss' )
+const rtlcss = require( 'rtlcss' )
 
 const getDirSelector = ( selector, dir ) => {
     if ( dir )
@@ -10,19 +10,19 @@ const getDirSelector = ( selector, dir ) => {
 
 const getDirRule = ( rule, dir ) => {
     const nextRule = rule.next()
-    const rtlSelector = getDirSelector( rule.selector, dir )
+    const selector = getDirSelector( rule.selector, dir )
 
-    if ( nextRule && nextRule.selector === rtlSelector ) {
+    if ( nextRule && nextRule.selector === selector ) {
         return nextRule
     } else {
-        const newRule = rule.cloneAfter( { selector: rtlSelector } )
+        const newRule = rule.cloneAfter( { selector: selector } )
         newRule.removeAll()
         return newRule
     }
 }
 
 
-module.exports = postcss.plugin ( 'postcss-rtl', () => css =>
+module.exports = postcss.plugin( 'postcss-rtl', () => css =>
     css.walkRules( rule => {
         if ( rule.selector.indexOf( '[dir="' ) > -1 ) return
 

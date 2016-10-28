@@ -1,14 +1,15 @@
-.gitignore
 .editorconfig
+.eslintrc
+.gitignore
 .idea
 .npmignore
+.travis.yml
 
 node_modules/
 npm-debug.log
 
-test.js
-.travis.yml
-
-examples
 build
-examples-test.js
+demo
+
+gulpfile.js
+test.js
