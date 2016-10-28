@@ -38,7 +38,7 @@
   },
   "scripts": {
     "build": "babel src -d lib",
-    "prepublish": "npm run build && npm test && lint",
+    "prepublish": "npm run build && npm test",
     "start": "gulp",
     "lint": " eslint lib/*.js",
     "test": "ava"
