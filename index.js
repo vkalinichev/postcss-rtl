@@ -15,8 +15,8 @@ const getDirRule = ( rule, dir ) => {
     if ( nextRule && nextRule.selector === rtlSelector ) {
         return nextRule
     } else {
-        const newRule = postcss.rule( { selector: rtlSelector } )
-        rule.parent.insertAfter( rule, newRule )
+        const newRule = rule.cloneAfter( { selector: rtlSelector } )
+        newRule.removeAll()
         return newRule
     }
 }
