@@ -1,6 +1,6 @@
 import postcss from 'postcss'
 import test    from 'ava'
-import plugin from './'
+import plugin from './lib'
 
 const run = ( t, input, output, opts = {} ) =>
 
