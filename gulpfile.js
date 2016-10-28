@@ -1,19 +1,26 @@
 const gulp = require( 'gulp' )
 const sourcemaps = require( 'gulp-sourcemaps' )
 const postcss = require( 'gulp-postcss' )
-const rtl = require( './index' )
+const requireNew = require( 'require-new' )
+let rtl
 
-gulp.task( 'copy', () =>
+gulp.task( 'html', () =>
     gulp.src( './demo/demo.html' )
         .pipe( gulp.dest( './build' ) )
 )
 
-gulp.task( 'demo', () =>
-    gulp.src( './demo/demo.css' )
+gulp.task( 'styles', () => {
+    rtl = requireNew( './index' )
+    gulp.src( './demo/*.css' )
         .pipe( sourcemaps.init() )
         .pipe( postcss( [ rtl ] ) )
         .pipe( sourcemaps.write( '.' ) )
         .pipe( gulp.dest( './build' ) )
+} )
+
+gulp.task( 'watch', ()=>
+    gulp.watch( './index.js', [ 'styles' ] )
 )
 
-gulp.task( 'default', [ 'demo', 'copy' ] )
+gulp.task( 'dev', [ 'default', 'watch' ] )
+gulp.task( 'default', [ 'styles', 'html' ] )

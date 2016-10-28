@@ -1,6 +1,6 @@
 {
   "name": "postcss-rtl",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "PostCSS plugin for RTL-optimizations",
   "keywords": [
     "postcss",
@@ -29,10 +29,12 @@
     "eslint-config-postcss": "^2.0.2",
     "gulp": "^3.9.1",
     "gulp-postcss": "^6.2.0",
-    "gulp-sourcemaps": "^2.2.0"
+    "gulp-sourcemaps": "^2.2.0",
+    "postcss": "^5.2.5",
+    "require-new": "^1.1.0"
   },
   "scripts": {
-    "demo": "gulp demo",
+    "dev": "gulp dev",
     "start": "gulp",
     "test": "ava && eslint *.js"
   },
