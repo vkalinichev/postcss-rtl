@@ -1,7 +1,7 @@
 const postcss = require( 'postcss' )
-const parser = require( 'postcss-selector-parser' )
+// const parser = require( 'postcss-selector-parser' )
 const rtlcss = require( 'rtlcss' )
-const unprefixed = postcss.vendor.unprefixed
+// const unprefixed = postcss.vendor.unprefixed
 
 const getDirRule = ( rule, dir ) => {
     const next = rule.next()
