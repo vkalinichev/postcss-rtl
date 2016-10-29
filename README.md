@@ -31,48 +31,64 @@ Lets you to use one file for both directions.
 This:
 ```css
 .foo {
+    float: right;
     margin-left: 13px;
     text-align: right;
+    border-color: lightgray;
+    border-width: 2px 0 2px 2px;
+    border-style: solid dashed solid solid;
+    animation: 1s slide 0s ease-in-out 
 }
 
+@keyframes slide {
+    from {
+        transform: translate( -1000px )
+    }
+    to {
+        transform: translate( 0 )
+    }
+}
 ```
-Converts to:
+Will converts to:
 ```css
+html[dir] .foo {
+    border-color: lightgray;
+}
+
 html[dir="ltr"] .foo {
+    float: right;
     margin-left: 13px;
     text-align: right;
+    border-width: 2px 0 2px 2px;
+    border-style: solid dashed solid solid;
+    animation: 1s slide-ltr 0s ease-in-out 
 }
+
 html[dir="rtl"] .foo {
+    float: left;
     margin-right: 13px;
     text-align: left;
-}
-
-```
-This:
-```css
-.bar {
-    float: right;
-    border-color: lightgray;
-    border-width: 2px 0 2px 2px;
-    border-style: solid dashed solid solid;
-}
-```
-Converts to:
-```css
-html[dir] .bar {
-    border-color: lightgray;
-}
-
-html[dir="ltr"] .bar {
-    float: right;
-    border-width: 2px 0 2px 2px;
-    border-style: solid dashed solid solid;
-}
-
-html[dir="rtl"] .bar {
-    float: left;
     border-width: 2px 2px 2px 0;
     border-style: solid solid solid dashed;
+    animation: 1s slide-rtl 0s ease-in-out 
+}
+
+@keyframes slide-ltr {
+    from {
+        transform: translate( -1000px )
+    }
+    to {
+        transform: translate( 0 )
+    }
+}
+
+@keyframes slide-rtl {
+    from {
+        transform: translate( 1000px )
+    }
+    to {
+        transform: translate( 0 )
+    }
 }
 ```
 
