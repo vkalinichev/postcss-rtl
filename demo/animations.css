@@ -1,0 +1,29 @@
+.animated-block {
+    animation: 1s slide 0s ease-in-out;
+}
+
+.animated-block-2 {
+    animation: 2s slide 0s ease-in-out;
+}
+
+.faded-block {
+    animation: 2s fade 0s ease-in-out;
+}
+
+@keyframes slide {
+    from {
+        transform: translate( -200px )
+    }
+    to {
+        transform: translate( 200px )
+    }
+}
+
+@keyframes fade {
+    from {
+        opacity: 1
+    }
+    to {
+        opacity: 0
+    }
+}

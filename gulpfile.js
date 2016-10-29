@@ -10,7 +10,7 @@ gulp.task( 'html', () =>
 )
 
 gulp.task( 'styles', () => {
-    rtl = requireNew( './index' )
+    rtl = requireNew( './src/index' )
     gulp.src( './demo/*.css' )
         .pipe( sourcemaps.init() )
         .pipe( postcss( [ rtl ] ) )

@@ -1,27 +1,66 @@
 const postcss = require( 'postcss' )
-const rtlcss = require( 'rtlcss' )
+const unprefixed = postcss.vendor.unprefixed
 
-const { getDirRule, addDirToSelectors } = require( './utils.js' )
+const { getDirRule, setRuleDir, rtlifyDecl, rtlifyRule } = require( './utils.js' )
 
-module.exports = postcss.plugin( 'postcss-rtl', () => css =>
+module.exports = postcss.plugin( 'postcss-rtl', () => css => {
 
+    // Keyframes-animations
+    css.walkAtRules( rule => {
+        const name = rule.params
+        let rtl
+        let rtlRule
+
+        if ( rule.name !== unprefixed( 'keyframes' ) ) return
+        if ( name.match( /-ltr|-rtl/ ) ) return
+
+        rtl = rtlifyRule( rule )
+
+        if ( !rtl ) return
+
+        rtlRule = rule.cloneAfter( { params: name + '-rtl' } )
+        rule.params += '-ltr'
+
+        rtlRule.walkDecls( decl => {
+            decl.value = rtlifyDecl( decl ).value
+        } )
+
+        css.walkDecls( decl => {
+            let callerRule
+            if ( !decl.prop.match( /animation/ ) ) return
+            if ( !decl.value.match( new RegExp( name ) ) ) return
+
+            callerRule = decl.parent
+            if ( callerRule.selector.match( /\[dir/ ) ) return
+            if ( callerRule.selector.match( /\[dir/ ) ) return
+
+            const rtlDirRule = getDirRule( callerRule, 'rtl' )
+            const rtlDecl = decl.clone( { value: decl.value.replace( name, name + '-rtl' ) } )
+            rtlDirRule.append( rtlDecl )
+
+            setRuleDir( callerRule, 'ltr' )
+            decl.value = decl.value.replace( name, name + '-ltr' )
+        } )
+    } )
+
+    // Simple rules (includes rules inside @media-queries)
     css.walkRules( rule => {
-        if ( rule.selector.indexOf( '[dir' ) > -1 ) return
+
+        if ( rule.selector.match( /\[dir/ ) ) return
+        if ( rule.parent.type === 'atrule' && rule.parent.name === unprefixed( 'keyframes' ) ) return
 
         let hasSymmetricDecls = false
         let ltrDecls = []
         let rtlDecls = []
 
         rule.walkDecls( decl => {
-            const rtlResult = rtlcss.process( decl )
-            const isSimmetricDecl = rtlResult === decl.toString()
-            const [ prop, value ] = rtlResult.split( /:\s*/ )
+            const rtl = rtlifyDecl( decl )
 
-            hasSymmetricDecls = hasSymmetricDecls || isSimmetricDecl
+            hasSymmetricDecls = hasSymmetricDecls || !rtl
 
-            if ( !isSimmetricDecl ) {
+            if ( rtl ) {
                 ltrDecls.push( decl )
-                rtlDecls.push( decl.clone( { prop, value } ) )
+                rtlDecls.push( decl.clone( rtl ) )
             }
         } )
 
@@ -34,9 +73,9 @@ module.exports = postcss.plugin( 'postcss-rtl', () => css =>
         if ( rule.nodes.length === 0 ) {
             rule.remove()
         } else {
-            rule.selector = addDirToSelectors( rule.selector )
+            setRuleDir( rule.selector )
         }
 
     } )
-
-)
+    return false
+} )

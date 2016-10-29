@@ -1,3 +1,5 @@
+const rtlcss = require( 'rtlcss' )
+
 const isHtmlSelector = ( selector = '' ) =>
     !!selector.match( /^html/ )
 
@@ -15,7 +17,7 @@ const getDirRule = ( rule, dir ) => {
     }
 }
 
-const addDirToSelectors = ( selectors, dir ) => {
+const addDirToSelectors = ( selectors = '', dir ) => {
     let prefix
 
     switch ( dir ) {
@@ -44,9 +46,28 @@ const addDirToSelectors = ( selectors, dir ) => {
     return selectors
 }
 
+const setRuleDir = ( rule, dir )=>
+    rule.selector = addDirToSelectors( rule.selector, dir )
+
+const rtlifyDecl = decl => {
+    const rtlResult = rtlcss.process( decl, null, null )
+    if ( rtlResult === decl.toString() ) return false
+
+    let [ prop, value ] = rtlResult.split( /:\s*/ )
+    return { prop, value }
+}
+
+const rtlifyRule = rule => {
+    const rtlResult = rtlcss.process( rule, null, null )
+
+    return ( rtlResult !== rule.toString() ) ? rtlResult : false
+}
+
 module.exports = {
     isHtmlSelector,
     isRootSelector,
     getDirRule,
-    addDirToSelectors
+    setRuleDir,
+    rtlifyDecl,
+    rtlifyRule
 }
