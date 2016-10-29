@@ -73,7 +73,7 @@ module.exports = postcss.plugin( 'postcss-rtl', () => css => {
         if ( rule.nodes.length === 0 ) {
             rule.remove()
         } else {
-            setRuleDir( rule.selector )
+            setRuleDir( rule )
         }
 
     } )
