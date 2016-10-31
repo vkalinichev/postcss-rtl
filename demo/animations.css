@@ -1,22 +1,12 @@
-.animated-block {
-    animation: 1s slide 0s ease-in-out;
+.faded {
+    text-align: center;
+    text-align: left;
+    animation: 1s fade 0s ease-in-out;
 }
 
-.animated-block-2 {
-    animation: 2s slide 0s ease-in-out;
-}
-
-.faded-block {
-    animation: 2s fade 0s ease-in-out;
-}
-
-@keyframes slide {
-    from {
-        transform: translate( -200px )
-    }
-    to {
-        transform: translate( 200px )
-    }
+.animated-1 {
+    animation: 1s slide1 0s ease-in-out, 1s slide2 0s ease-in-out;
+    animation-delay: 0s
 }
 
 @keyframes fade {
@@ -25,5 +15,23 @@
     }
     to {
         opacity: 0
+    }
+}
+
+@keyframes slide-right {
+    from {
+        transform: translate(-100px)
+    }
+    to {
+        transform: translate(100px)
+    }
+}
+
+@keyframes slide-left {
+    from {
+        transform: translate(-200px)
+    }
+    to {
+        transform: translate(200px)
     }
 }

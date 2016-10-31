@@ -19,7 +19,10 @@ gulp.task( 'styles', () => {
 } )
 
 gulp.task( 'watch', ()=>
-    gulp.watch( './index.js', [ 'styles' ] )
+    gulp.watch( [
+        './demo/*.css',
+        './src/*.js'
+    ], [ 'styles' ] )
 )
 
 gulp.task( 'dev', [ 'default', 'watch' ] )

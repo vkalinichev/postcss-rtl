@@ -6,7 +6,6 @@
 [![npm][npm-dwnlds-img]][npm]
 [![license][lic-img]][lic]
 
-[PostCSS]: https://github.com/postcss/postcss
 [ci-img]:  https://img.shields.io/travis/vkalinichev/postcss-rtl.svg
 [ci]:      https://travis-ci.org/vkalinichev/postcss-rtl
 
@@ -21,7 +20,7 @@
 
 [npm-dwnlds-img]: https://img.shields.io/npm/dt/postcss-rtl.svg
 
-[PostCSS]-plugin for RTL-optimizations.  
+[PostCSS]-plugin for RTL-optimizations.
 
 Generating RTL rules with flipped properties.
 Lets you to use one file for both directions.
@@ -37,7 +36,7 @@ This:
     border-color: lightgray;
     border-width: 2px 0 2px 2px;
     border-style: solid dashed solid solid;
-    animation: 1s slide 0s ease-in-out 
+    animation: 1s slide 0s ease-in-out
 }
 
 @keyframes slide {
@@ -61,7 +60,7 @@ html[dir="ltr"] .foo {
     text-align: right;
     border-width: 2px 0 2px 2px;
     border-style: solid dashed solid solid;
-    animation: 1s slide-ltr 0s ease-in-out 
+    animation: 1s slide-ltr 0s ease-in-out
 }
 
 html[dir="rtl"] .foo {
@@ -70,7 +69,7 @@ html[dir="rtl"] .foo {
     text-align: left;
     border-width: 2px 2px 2px 0;
     border-style: solid solid solid dashed;
-    animation: 1s slide-rtl 0s ease-in-out 
+    animation: 1s slide-rtl 0s ease-in-out
 }
 
 @keyframes slide-ltr {
@@ -99,3 +98,9 @@ postcss([ require('postcss-rtl') ])
 ```
 
 See [PostCSS] docs for examples for your environment.
+
+## Future
+- Processing [rtlcss-directives]
+
+[PostCSS]: https://github.com/postcss/postcss
+[rtlcss-directives]: http://rtlcss.com/learn/getting-started/why-rtlcss/#processing-directives

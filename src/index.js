@@ -1,81 +1,49 @@
 const postcss = require( 'postcss' )
-const unprefixed = postcss.vendor.unprefixed
 
-const { getDirRule, setRuleDir, rtlifyDecl, rtlifyRule } = require( './utils.js' )
+const { isKeyframeRule, isKeyframeAlreadyProcessed, isKeyframeSymmetric, rtlifyKeyframe } = require( './keyframes' )
+const { getDirRule, processSrcRule } = require( './rules' )
+const { rtlifyDecl, ltrifyDecl } = require( './decls' )
 
 module.exports = postcss.plugin( 'postcss-rtl', () => css => {
 
-    // Keyframes-animations
+    let keyframes = []
+
+    // collect @keyframes
     css.walkAtRules( rule => {
-        const name = rule.params
-        let rtl
-        let rtlRule
+        if ( !isKeyframeRule( rule ) ) return
+        if ( isKeyframeAlreadyProcessed( rule ) ) return
+        if ( isKeyframeSymmetric( rule ) ) return
 
-        if ( rule.name !== unprefixed( 'keyframes' ) ) return
-        if ( name.match( /-ltr|-rtl/ ) ) return
-
-        rtl = rtlifyRule( rule )
-
-        if ( !rtl ) return
-
-        rtlRule = rule.cloneAfter( { params: name + '-rtl' } )
-        rule.params += '-ltr'
-
-        rtlRule.walkDecls( decl => {
-            decl.value = rtlifyDecl( decl ).value
-        } )
-
-        css.walkDecls( decl => {
-            let callerRule
-            if ( !decl.prop.match( /animation/ ) ) return
-            if ( !decl.value.match( new RegExp( name ) ) ) return
-
-            callerRule = decl.parent
-            if ( callerRule.selector.match( /\[dir/ ) ) return
-            if ( callerRule.selector.match( /\[dir/ ) ) return
-
-            const rtlDirRule = getDirRule( callerRule, 'rtl' )
-            const rtlDecl = decl.clone( { value: decl.value.replace( name, name + '-rtl' ) } )
-            rtlDirRule.append( rtlDecl )
-
-            setRuleDir( callerRule, 'ltr' )
-            decl.value = decl.value.replace( name, name + '-ltr' )
-        } )
+        keyframes.push( rule.params )
+        rtlifyKeyframe( rule )
     } )
 
     // Simple rules (includes rules inside @media-queries)
     css.walkRules( rule => {
-
-        if ( rule.selector.match( /\[dir/ ) ) return
-        if ( rule.parent.type === 'atrule' && rule.parent.name === unprefixed( 'keyframes' ) ) return
-
-        let hasSymmetricDecls = false
         let ltrDecls = []
         let rtlDecls = []
 
+        if ( rule.selector.match( /\[dir/ ) ) return
+        if ( isKeyframeRule( rule.parent ) ) return
+
         rule.walkDecls( decl => {
-            const rtl = rtlifyDecl( decl )
+            const rtl = rtlifyDecl( decl, keyframes )
 
-            hasSymmetricDecls = hasSymmetricDecls || !rtl
+            if ( !rtl ) return
 
-            if ( rtl ) {
-                ltrDecls.push( decl )
-                rtlDecls.push( decl.clone( rtl ) )
-            }
+            ltrDecls.push( ltrifyDecl( decl, keyframes ) )
+            rtlDecls.push( decl.clone( rtl ) )
         } )
 
-        if ( ltrDecls.length ) {
+        if ( rtlDecls.length ) {
+            let ltrDirRule
             getDirRule( rule, 'rtl' ).append( rtlDecls )
-            const ltrDirRule = getDirRule( rule, 'ltr' )
+            ltrDirRule = getDirRule( rule, 'ltr' )
             ltrDecls.forEach( _decl => _decl.moveTo( ltrDirRule ) )
         }
 
-        if ( rule.nodes.length === 0 ) {
-            rule.remove()
-        } else {
-            setRuleDir( rule )
-        }
-
+        /* set dir attrs */
+        processSrcRule( rule )
     } )
     return false
 } )
