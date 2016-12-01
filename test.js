@@ -11,9 +11,9 @@ const run = ( t, input, output, opts = {} ) =>
         } )
 
 
-test( 'Added html[dir] prefix to symmetric rules', t => run( t,
+test( 'do NOT Add [dir] prefix to symmetric rules', t => run( t,
     'a { text-align: center }',
-    '[dir] a { text-align: center }'
+    'a { text-align: center }'
 ) )
 
 test( 'Creates both LTR & RTL rules for asymmetric declarations', t => run( t,
