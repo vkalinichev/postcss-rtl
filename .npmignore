@@ -5,6 +5,7 @@
 .idea
 .npmignore
 .travis.yml
+yarn.lock
 
 node_modules/
 

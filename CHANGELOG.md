@@ -4,16 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.3] - 2016-12-01
+- Compacted selector levels (thanks to [@crossjs](https://github.com/crossjs))
+
 ## [0.3.1] - 2016-10-31
-### Added
 - Fixed `@keyframes`-animations processing
 
 ## [0.3.0] - 2016-10-29
-### Added
 - Process and flip `@keyframes`-animations
 
 ## [0.2.0] - 2016-10-29
-### Added
 - Process `html` and `:root` selectors
 - Support of Node.js v0.12
 
