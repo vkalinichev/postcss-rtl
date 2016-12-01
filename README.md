@@ -33,12 +33,15 @@ This:
     float: right;
     margin-left: 13px;
     text-align: right;
+    font-size: 13px;
     border-color: lightgray;
     border-width: 2px 0 2px 2px;
     border-style: solid dashed solid solid;
     animation: 1s slide 0s ease-in-out
 }
-
+.foo {
+    text-align: center;
+}
 @keyframes slide {
     from {
         transform: translate( -1000px )
@@ -50,11 +53,13 @@ This:
 ```
 Will converts to:
 ```css
-html[dir] .foo {
-    border-color: lightgray;
+.foo {
+    font-size: 13px
 }
-
-html[dir="ltr"] .foo {
+[dir] .foo {
+    border-color: lightgray
+}
+[dir="ltr"] .foo {
     float: right;
     margin-left: 13px;
     text-align: right;
@@ -62,8 +67,7 @@ html[dir="ltr"] .foo {
     border-style: solid dashed solid solid;
     animation: 1s slide-ltr 0s ease-in-out
 }
-
-html[dir="rtl"] .foo {
+[dir="rtl"] .foo {
     float: left;
     margin-right: 13px;
     text-align: left;
@@ -71,7 +75,9 @@ html[dir="rtl"] .foo {
     border-style: solid solid solid dashed;
     animation: 1s slide-rtl 0s ease-in-out
 }
-
+[dir] .foo {
+    text-align: center
+}
 @keyframes slide-ltr {
     from {
         transform: translate( -1000px )
@@ -80,7 +86,6 @@ html[dir="rtl"] .foo {
         transform: translate( 0 )
     }
 }
-
 @keyframes slide-rtl {
     from {
         transform: translate( 1000px )

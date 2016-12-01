@@ -6,6 +6,23 @@ const { rtlifyDecl, ltrifyDecl } = require( './decls' )
 
 module.exports = postcss.plugin( 'postcss-rtl', () => css => {
 
+    // selectors have direction related properties
+    // should add [dir] prefix to increase priority
+    const dirRegExp = [
+        /direction/im,
+        /left/im,
+        /right/im,
+        /^(margin|padding|border-(color|style|width))$/ig,
+        /border-radius/ig,
+        /shadow/ig,
+        /transform-origin/ig,
+        /^(?!text\-).*?transform$/ig,
+        /transition(-property)?$/i,
+        /background(-position(-x)?|-image)?$/i,
+        /float|clear|text-align/i,
+        /cursor/i
+    ]
+
     let keyframes = []
 
     // collect @keyframes
@@ -22,6 +39,7 @@ module.exports = postcss.plugin( 'postcss-rtl', () => css => {
     css.walkRules( rule => {
         let ltrDecls = []
         let rtlDecls = []
+        let dirDecls = []
 
         if ( rule.selector.match( /\[dir/ ) ) return
         if ( isKeyframeRule( rule.parent ) ) return
@@ -29,10 +47,16 @@ module.exports = postcss.plugin( 'postcss-rtl', () => css => {
         rule.walkDecls( decl => {
             const rtl = rtlifyDecl( decl, keyframes )
 
-            if ( !rtl ) return
+            if ( rtl ) {
+                ltrDecls.push( ltrifyDecl( decl, keyframes ) )
+                rtlDecls.push( decl.clone( rtl ) )
+                return
+            }
 
-            ltrDecls.push( ltrifyDecl( decl, keyframes ) )
-            rtlDecls.push( decl.clone( rtl ) )
+            if ( dirRegExp.some( re => !!decl.prop.match( re ) ) ) {
+                dirDecls.push( decl )
+                decl.remove()
+            }
         } )
 
         if ( rtlDecls.length ) {
@@ -40,6 +64,10 @@ module.exports = postcss.plugin( 'postcss-rtl', () => css => {
             getDirRule( rule, 'rtl' ).append( rtlDecls )
             ltrDirRule = getDirRule( rule, 'ltr' )
             ltrDecls.forEach( _decl => _decl.moveTo( ltrDirRule ) )
+        }
+
+        if ( dirDecls.length ) {
+            getDirRule( rule, 'dir' ).append( dirDecls )
         }
 
         /* set dir attrs */

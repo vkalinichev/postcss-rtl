@@ -15,19 +15,24 @@ const addDirToSelectors = ( selectors = '', dir ) => {
         case 'rtl':
             prefix = `[dir="${ dir }"]`
             break
-        default:
+        case 'dir':
             prefix = '[dir]'
+            break
+        default:
+            prefix = ''
     }
 
     selectors = selectors
         .split( /\s*,\s*/ )
         .map( selector => {
             if ( isHtmlSelector( selector ) ) {
-                selector = selector.replace( /html/ig, `html${ prefix }` )
+                // only replace `html` at the beginning of selector
+                selector = selector.replace( /^html/ig, `html${ prefix }` )
             } else if ( isRootSelector( selector ) ) {
                 selector = selector.replace( /:root/ig, `${ prefix }:root` )
-            } else {
-                selector = `html${ prefix } ${ selector }`
+            } else if ( prefix ) {
+                // add prefix without html for least change of the priority level
+                selector = `${ prefix } ${ selector }`
             }
             return selector
         } )
