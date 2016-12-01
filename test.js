@@ -13,18 +13,18 @@ const run = ( t, input, output, opts = {} ) =>
 
 test( 'Added html[dir] prefix to symmetric rules', t => run( t,
     'a { text-align: center }',
-    'html[dir] a { text-align: center }'
+    '[dir] a { text-align: center }'
 ) )
 
 test( 'Creates both LTR & RTL rules for asymmetric declarations', t => run( t,
     'a { text-align: left }',
-    'html[dir="ltr"] a { text-align: left } ' +
-    'html[dir="rtl"] a { text-align: right }'
+    '[dir="ltr"] a { text-align: left } ' +
+    '[dir="rtl"] a { text-align: right }'
 ) )
 
 test( 'Removes original rule without symmetric declarations', t => run( t,
     'a { text-align: left }',
-    'html[dir="ltr"] a { text-align: left } ' +
-    'html[dir="rtl"] a { text-align: right }'
+    '[dir="ltr"] a { text-align: left } ' +
+    '[dir="rtl"] a { text-align: right }'
 ) )
 
