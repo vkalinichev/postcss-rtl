@@ -16,18 +16,21 @@ const addDirToSelectors = ( selectors = '', dir ) => {
             prefix = `[dir="${ dir }"]`
             break
         default:
-            prefix = '[dir]'
+            // use empty prefix for least change of the priority level
+            prefix = ''
     }
 
     selectors = selectors
         .split( /\s*,\s*/ )
         .map( selector => {
             if ( isHtmlSelector( selector ) ) {
-                selector = selector.replace( /html/ig, `html${ prefix }` )
+                // replace `html` at the beginning of selector 
+                selector = selector.replace( /^html/ig, `html${ prefix }` )
             } else if ( isRootSelector( selector ) ) {
                 selector = selector.replace( /:root/ig, `${ prefix }:root` )
             } else {
-                selector = `html${ prefix } ${ selector }`
+                // just add prefix for least change of the priority level
+                selector = prefix ? `${ prefix } ${ selector }` : selector
             }
             return selector
         } )
