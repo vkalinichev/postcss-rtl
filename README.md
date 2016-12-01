@@ -50,11 +50,11 @@ This:
 ```
 Will converts to:
 ```css
-html[dir] .foo {
+.foo {
     border-color: lightgray;
 }
 
-html[dir="ltr"] .foo {
+[dir="ltr"] .foo {
     float: right;
     margin-left: 13px;
     text-align: right;
@@ -63,7 +63,7 @@ html[dir="ltr"] .foo {
     animation: 1s slide-ltr 0s ease-in-out
 }
 
-html[dir="rtl"] .foo {
+[dir="rtl"] .foo {
     float: left;
     margin-right: 13px;
     text-align: left;
