@@ -4,11 +4,11 @@ const { isSelectorHasDir, addDirToSelectors } = require( './selectors' )
 const isRuleAlreadyProcessed = rule =>
     !!rule.selector.match( /\[dir(=".+")?\]/ )
 
-const getDirRule = ( rule, dir ) => {
+const getDirRule = ( rule, dir, addPrefixToSelector ) => {
     const next = rule.next()
     let selector = rule.selector
 
-    selector = isSelectorHasDir( selector ) ? selector : addDirToSelectors( selector, dir )
+    selector = isSelectorHasDir( selector ) ? selector : addDirToSelectors( selector, dir, addPrefixToSelector )
 
     if ( rule.selector === selector ) {
         return rule
@@ -19,9 +19,9 @@ const getDirRule = ( rule, dir ) => {
     }
 }
 
-const setRuleDir = ( rule, dir )=> {
+const setRuleDir = ( rule, dir, addPrefixToSelector )=> {
     const { selector } = rule
-    rule.selector = isSelectorHasDir( selector ) ? selector : addDirToSelectors( selector, dir )
+    rule.selector = isSelectorHasDir( selector ) ? selector : addDirToSelectors( selector, dir, addPrefixToSelector )
 }
 
 const rtlifyRule = rule => {

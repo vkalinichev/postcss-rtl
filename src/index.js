@@ -4,7 +4,10 @@ const { isKeyframeRule, isKeyframeAlreadyProcessed, isKeyframeSymmetric, rtlifyK
 const { getDirRule, processSrcRule } = require( './rules' )
 const { rtlifyDecl, ltrifyDecl } = require( './decls' )
 
-module.exports = postcss.plugin( 'postcss-rtl', () => css => {
+module.exports = postcss.plugin( 'postcss-rtl', ( options = {} ) => css => {
+
+    // customized function for joining prefix and selector
+    const addPrefixToSelector = options.addPrefixToSelector
 
     // selectors have direction related properties
     // should add [dir] prefix to increase priority
@@ -61,13 +64,13 @@ module.exports = postcss.plugin( 'postcss-rtl', () => css => {
 
         if ( rtlDecls.length ) {
             let ltrDirRule
-            getDirRule( rule, 'rtl' ).append( rtlDecls )
-            ltrDirRule = getDirRule( rule, 'ltr' )
+            getDirRule( rule, 'rtl', addPrefixToSelector ).append( rtlDecls )
+            ltrDirRule = getDirRule( rule, 'ltr', addPrefixToSelector )
             ltrDecls.forEach( _decl => _decl.moveTo( ltrDirRule ) )
         }
 
         if ( dirDecls.length ) {
-            getDirRule( rule, 'dir' ).append( dirDecls )
+            getDirRule( rule, 'dir', addPrefixToSelector ).append( dirDecls )
         }
 
         /* set dir attrs */

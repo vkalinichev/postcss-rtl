@@ -53,3 +53,14 @@ test( 'Removes original rule without symmetric declarations', t => run( t,
     '[dir="ltr"] a { text-align: left } ' +
     '[dir="rtl"] a { text-align: right }'
 ) )
+
+test( 'Use custom `addPrefixToSelector` function', t => run( t,
+    'a { text-align: left }',
+    '[dir="ltr"] > a { text-align: left } ' +
+    '[dir="rtl"] > a { text-align: right }',
+    {
+        addPrefixToSelector ( selector, prefix ) {
+            return `${prefix} > ${selector}`
+        }
+    }
+) )
