@@ -2,7 +2,6 @@
 
 [![npm][npm-img]][npm]
 [![Build Status][ci-img]][ci]
-[![Libraries.io for GitHub][dep-img]][dep]
 [![npm][npm-dwnlds-img]][npm]
 [![license][lic-img]][lic]
 
@@ -14,9 +13,6 @@
 
 [lic-img]: https://img.shields.io/github/license/vkalinichev/postcss-rtl.svg
 [lic]:     https://github.com/vkalinichev/postcss-rtl/blob/master/License
-
-[dep-img]: https://img.shields.io/librariesio/github/vkalinichev/postcss-rtl.svg
-[dep]:     https://libraries.io/npm/postcss-rtl
 
 [npm-dwnlds-img]: https://img.shields.io/npm/dt/postcss-rtl.svg
 
