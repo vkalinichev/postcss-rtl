@@ -7,7 +7,7 @@ const isHtmlSelector = ( selector = '' ) =>
 const isRootSelector = ( selector = '' ) =>
     !!selector.match( /:root/ )
 
-const addDirToSelectors = ( selectors = '', dir ) => {
+const addDirToSelectors = ( selectors = '', dir, addPrefixToSelector ) => {
     let prefix
 
     switch ( dir ) {
@@ -22,15 +22,21 @@ const addDirToSelectors = ( selectors = '', dir ) => {
             prefix = ''
     }
 
+    if ( !prefix ) {
+        return selectors
+    }
+
     selectors = selectors
         .split( /\s*,\s*/ )
         .map( selector => {
-            if ( isHtmlSelector( selector ) ) {
+            if ( typeof addPrefixToSelector === 'function' ) {
+                selector = addPrefixToSelector( selector, prefix )
+            } else if ( isHtmlSelector( selector ) ) {
                 // only replace `html` at the beginning of selector
                 selector = selector.replace( /^html/ig, `html${ prefix }` )
             } else if ( isRootSelector( selector ) ) {
                 selector = selector.replace( /:root/ig, `${ prefix }:root` )
-            } else if ( prefix ) {
+            } else {
                 // add prefix without html for least change of the priority level
                 selector = `${ prefix } ${ selector }`
             }

@@ -102,6 +102,28 @@ Just plug it to PostCSS:
 postcss([ require('postcss-rtl') ])
 ```
 
+With Webpack:
+```js
+module.exports = {
+  module: {
+    loaders: [
+      {
+        test: /\.css$/,
+        loader: "style-loader!css-loader!postcss-loader"
+      }
+    ]
+  },
+  postcss: function() {
+    return [require('postcss-rtl')({
+        // Custom function for adding prefix to selector. Optional.
+        addPrefixToSelector (selector, prefix) {
+            return `${prefix} > ${selector}`
+        }
+    })]
+  }
+}
+```
+
 See [PostCSS] docs for examples for your environment.
 
 ## Future
