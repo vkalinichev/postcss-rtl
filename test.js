@@ -42,6 +42,14 @@ test( 'Should add [dir] prefix to symmetric rules with direction related declara
     '[dir] a { text-align: center }'
 ) )
 
+test( 'Should add [dir] prefix to symmetric rules with direction related declarations (4)', t => run( t,
+    'a { margin: 0 10px 0 0 } ' +
+    'a { margin-top: 20px }',
+    '[dir="ltr"] a { margin: 0 10px 0 0 } ' +
+    '[dir="rtl"] a { margin: 0 0 0 10px } ' +
+    '[dir] a { margin-top: 20px }'
+) )
+
 test( 'Creates both LTR & RTL rules for asymmetric declarations', t => run( t,
     'a { text-align: left }',
     '[dir="ltr"] a { text-align: left } ' +

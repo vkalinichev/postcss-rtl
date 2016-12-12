@@ -1,5 +1,6 @@
 const postcss = require( 'postcss' )
 
+const affectedProps = require( './affected-props' )
 const { isKeyframeRule, isKeyframeAlreadyProcessed, isKeyframeSymmetric, rtlifyKeyframe } = require( './keyframes' )
 const { getDirRule, processSrcRule } = require( './rules' )
 const { rtlifyDecl, ltrifyDecl } = require( './decls' )
@@ -8,23 +9,6 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options = {} ) => css => {
 
     // customized function for joining prefix and selector
     const addPrefixToSelector = options.addPrefixToSelector
-
-    // selectors have direction related properties
-    // should add [dir] prefix to increase priority
-    const dirRegExp = [
-        /direction/im,
-        /left/im,
-        /right/im,
-        /^(margin|padding|border-(color|style|width))$/ig,
-        /border-radius/ig,
-        /shadow/ig,
-        /transform-origin/ig,
-        /^(?!text\-).*?transform$/ig,
-        /transition(-property)?$/i,
-        /background(-position(-x)?|-image)?$/i,
-        /float|clear|text-align/i,
-        /cursor/i
-    ]
 
     let keyframes = []
 
@@ -56,7 +40,7 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options = {} ) => css => {
                 return
             }
 
-            if ( dirRegExp.some( re => !!decl.prop.match( re ) ) ) {
+            if ( affectedProps.indexOf( decl.prop ) >= 0 ) {
                 dirDecls.push( decl )
                 decl.remove()
             }
