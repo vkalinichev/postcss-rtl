@@ -1,3 +1,5 @@
+const del = require( 'del' )
+const sequence= require( 'run-sequence' )
 const gulp = require( 'gulp' )
 const sourcemaps = require( 'gulp-sourcemaps' )
 const postcss = require( 'gulp-postcss' )
@@ -11,18 +13,25 @@ gulp.task( 'html', () =>
 
 gulp.task( 'styles', () => {
     rtl = requireNew( './src/index' )
-    gulp.src( './demo/*.css' )
+    return gulp.src( './demo/*.css' )
         .pipe( sourcemaps.init() )
         .pipe( postcss( [ rtl ] ) )
         .pipe( sourcemaps.write( '.' ) )
         .pipe( gulp.dest( './build' ) )
 } )
 
+
+gulp.task( 'clean', () =>
+    del( './build/*.css' )
+)
+
+gulp.task( 'styles:rebuild', sequence( 'clean', 'styles' ) )
+
 gulp.task( 'watch', ()=>
     gulp.watch( [
         './demo/*.css',
         './src/*.js'
-    ], [ 'styles' ] )
+    ], [ 'styles:rebuild' ] )
 )
 
 gulp.task( 'dev', [ 'default', 'watch' ] )
