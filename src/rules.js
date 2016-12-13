@@ -1,9 +1,6 @@
 const rtlcss = require( 'rtlcss' )
 const { isSelectorHasDir, addDirToSelectors } = require( './selectors' )
 
-const isRuleAlreadyProcessed = rule =>
-    !!rule.selector.match( /\[dir(=".+")?\]/ )
-
 const getDirRule = ( rule, dir, addPrefixToSelector ) => {
     const next = rule.next()
     let selector = rule.selector
@@ -39,7 +36,6 @@ const processSrcRule = rule => {
 }
 
 module.exports = {
-    isRuleAlreadyProcessed,
     getDirRule,
     setRuleDir,
     rtlifyRule,
