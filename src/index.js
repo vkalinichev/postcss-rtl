@@ -1,20 +1,17 @@
 const postcss = require( 'postcss' )
 
 const affectedProps = require( './affected-props' )
+const { validateOptions } = require( './options' )
 const { isKeyframeRule, isKeyframeAlreadyProcessed, isKeyframeSymmetric, rtlifyKeyframe } = require( './keyframes' )
 const { getDirRule, processSrcRule } = require( './rules' )
 const { rtlifyDecl, ltrifyDecl } = require( './decls' )
 const { isSelectorHasDir } = require( './selectors' )
 
-const defaultOptions = {
-    addPrefixToSelector: null, // customized function for joining prefix and selector
-    markType: 'class'
-}
+module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
 
-module.exports = postcss.plugin( 'postcss-rtl', ( options = defaultOptions ) => css => {
-
-    const { addPrefixToSelector } = options
     let keyframes = []
+
+    options = validateOptions( options )
 
     // collect @keyframes
     css.walkAtRules( rule => {
@@ -32,7 +29,7 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options = defaultOptions ) => 
         let rtlDecls = []
         let dirDecls = []
 
-        if ( isSelectorHasDir( rule.selector ) ) return
+        if ( isSelectorHasDir( rule.selector, options ) ) return
         if ( isKeyframeRule( rule.parent ) ) return
 
         rule.walkDecls( decl => {
@@ -62,7 +59,7 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options = defaultOptions ) => 
         }
 
         /* set dir attrs */
-        processSrcRule( rule )
+        processSrcRule( rule, options )
     } )
     return false
 } )

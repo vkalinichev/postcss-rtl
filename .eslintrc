@@ -17,7 +17,7 @@
         "quotes": [ "error", "single" ],
         "space-in-parens": [ "error", "always" ],
         "object-curly-spacing": [ "error", "always"],
-        "no-console": [ "warn" ],
+        "no-console": [ "warn", { "allow": ["warn", "error"] } ],
         "no-unused-vars": [ "warn" ],
         "indent": [ "error", 4, { "SwitchCase": 1 } ],
         "semi": [ "error", "never" ]

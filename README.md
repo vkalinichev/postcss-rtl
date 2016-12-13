@@ -16,12 +16,12 @@
 
 [npm-dwnlds-img]: https://img.shields.io/npm/dt/postcss-rtl.svg
 
-[PostCSS]-plugin for RTL-optimizations.
+[PostCSS]-plugin for RTL-adaptivity
 
-Generating RTL rules with flipped properties.
-Lets you to use one file for both directions.
+Generates RTL rules with flipped properties.
+Use one file for both directions!
 
-**Example:**
+##Example:
 
 This:
 ```css
@@ -32,12 +32,51 @@ This:
     font-size: 13px;
     border-color: lightgray;
     border-width: 2px 0 2px 2px;
-    border-style: solid dashed solid solid;
-    animation: 1s slide 0s ease-in-out
+    border-style: solid dashed solid solid
 }
+
 .foo {
     text-align: center;
 }
+```
+
+Converts to:
+```css
+.foo {
+    font-size: 13px
+}
+
+[dir] .foo {
+    border-color: lightgray
+}
+
+[dir="ltr"] .foo {
+    float: right;
+    margin-left: 13px;
+    text-align: right;
+    border-width: 2px 0 2px 2px;
+    border-style: solid dashed solid solid
+}
+
+[dir="rtl"] .foo {
+    float: left;
+    margin-right: 13px;
+    text-align: left;
+    border-width: 2px 2px 2px 0;
+    border-style: solid solid solid dashed
+}
+
+[dir] .foo {
+    text-align: center
+}
+```
+
+This:
+```css
+.foo {
+    animation: 1s slide 0s ease-in-out
+}
+
 @keyframes slide {
     from {
         transform: translate( -1000px )
@@ -47,33 +86,17 @@ This:
     }
 }
 ```
-Will converts to:
+
+Converts to:
 ```css
-.foo {
-    font-size: 13px
-}
-[dir] .foo {
-    border-color: lightgray
-}
 [dir="ltr"] .foo {
-    float: right;
-    margin-left: 13px;
-    text-align: right;
-    border-width: 2px 0 2px 2px;
-    border-style: solid dashed solid solid;
     animation: 1s slide-ltr 0s ease-in-out
 }
+
 [dir="rtl"] .foo {
-    float: left;
-    margin-right: 13px;
-    text-align: left;
-    border-width: 2px 2px 2px 0;
-    border-style: solid solid solid dashed;
     animation: 1s slide-rtl 0s ease-in-out
 }
-[dir] .foo {
-    text-align: center
-}
+
 @keyframes slide-ltr {
     from {
         transform: translate( -1000px )
@@ -82,6 +105,7 @@ Will converts to:
         transform: translate( 0 )
     }
 }
+
 @keyframes slide-rtl {
     from {
         transform: translate( 1000px )
@@ -95,35 +119,58 @@ Will converts to:
 ## Usage
 Just plug it to PostCSS:
 ```js
-postcss([ require('postcss-rtl') ])
+const postcss = require('postcss')
+const rtl = require('postcss-rtl')
+ 
+postcss([ rtl( options ) ])
+      
+```
+See [PostCSS] docs for examples for your environment.
+
+
+###With Gulp:
+```js
+gulp.src( 'style.css' )
+    .pipe( postcss( [ rtl( options ) ]) )
+    .pipe( gulp.dest( './dest' ) )
 ```
 
-With Webpack:
+###With Webpack:
 ```js
 module.exports = {
   module: {
-    loaders: [
-      {
-        test: /\.css$/,
-        loader: "style-loader!css-loader!postcss-loader"
-      }
-    ]
+    loaders: [ {
+      test: /\.css$/,
+      loader: "style!css!postcss"
+    } ]
   },
   postcss: function() {
-    return [require('postcss-rtl')({
-        // Custom function for adding prefix to selector. Optional.
-        addPrefixToSelector (selector, prefix) {
-            return `${prefix} > ${selector}`
-        }
-    })]
+    return [ rtl( options )]
   }
 }
 ```
 
-See [PostCSS] docs for examples for your environment.
-
+### Options
+* `addPrefixToSelector`: Custom function for adding prefix to selector. Optional.
+    Example:
+    ```js
+    function addPrefixToSelector ( selector, prefix ) {
+        return `${prefix} > ${selector}` // Make selectors like [dir=rtl] > .selector
+    }
+    ```
+    
+* `prefixType`: allows you to define type of direction marks: 
+    * `attribute` ( by default): `.foo` => `[dir=rtl] .foo`
+    * `class` (useful for IE6): `.foo` => `.dir-rtl .foo`
+      
 ## Future
 - Processing [rtlcss-directives]
 
+## Thanks
+Great thanks to projects:
+* [PostCSS][PostCSS]
+* [RTLCSS][RTLCSS]
+
 [PostCSS]: https://github.com/postcss/postcss
+[RTLCSS]: https://github.com/MohammadYounes/rtlcss
 [rtlcss-directives]: http://rtlcss.com/learn/getting-started/why-rtlcss/#processing-directives

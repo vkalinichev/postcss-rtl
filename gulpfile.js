@@ -4,7 +4,6 @@ const gulp = require( 'gulp' )
 const sourcemaps = require( 'gulp-sourcemaps' )
 const postcss = require( 'gulp-postcss' )
 const requireNew = require( 'require-new' )
-let rtl
 
 gulp.task( 'html', () =>
     gulp.src( './demo/demo.html' )
@@ -12,10 +11,13 @@ gulp.task( 'html', () =>
 )
 
 gulp.task( 'styles', () => {
-    rtl = requireNew( './src/index' )
+    let rtl = requireNew( './src/index' )
+    let options = {
+        prefixType: 'attribute'
+    }
     return gulp.src( './demo/*.css' )
         .pipe( sourcemaps.init() )
-        .pipe( postcss( [ rtl ] ) )
+        .pipe( postcss( [ rtl( options ) ] ) )
         .pipe( sourcemaps.write( '.' ) )
         .pipe( gulp.dest( './build' ) )
 } )

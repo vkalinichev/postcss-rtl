@@ -1,5 +1,7 @@
-const isSelectorHasDir = ( selector = '' ) =>
-    !!selector.match( /\[dir(=".+")?\]/ )
+const prefixes = require( './prefixes-config' )
+
+const isSelectorHasDir = ( selector = '', { prefixType } ) =>
+    !!selector.match( prefixes[ prefixType ].regex )
 
 const isHtmlSelector = ( selector = '' ) =>
     !!selector.match( /^html/ )
@@ -9,29 +11,14 @@ const isRootSelector = ( selector = '' ) =>
 
 const addDirToSelectors = ( selectors = '', dir, options={} ) => {
 
-    const { addPrefixToSelector } = options
-    let prefix
+    const { addPrefixToSelector, prefixType } = options
+    let prefix = prefixes[ prefixType ].prefixes[ dir ]
+    if ( !prefix ) return selectors
 
-    switch ( dir ) {
-        case 'ltr':
-        case 'rtl':
-            prefix = `[dir="${ dir }"]`
-            break
-        case 'dir':
-            prefix = '[dir]'
-            break
-        default:
-            prefix = ''
-    }
-
-    if ( !prefix ) {
-        return selectors
-    }
-
-    selectors = selectors
+    return selectors
         .split( /\s*,\s*/ )
         .map( selector => {
-            if ( typeof addPrefixToSelector === 'function' ) {
+            if ( addPrefixToSelector ) {
                 selector = addPrefixToSelector( selector, prefix )
             } else if ( isHtmlSelector( selector ) ) {
                 // only replace `html` at the beginning of selector
@@ -45,8 +32,6 @@ const addDirToSelectors = ( selectors = '', dir, options={} ) => {
             return selector
         } )
         .join( ', ' )
-
-    return selectors
 }
 
 module.exports = {

@@ -5,7 +5,7 @@ const getDirRule = ( rule, dir, options ) => {
     const next = rule.next()
     let selector = rule.selector
 
-    selector = isSelectorHasDir( selector ) ? selector : addDirToSelectors( selector, dir, options )
+    selector = isSelectorHasDir( selector, options ) ? selector : addDirToSelectors( selector, dir, options )
 
     if ( rule.selector === selector ) {
         return rule
@@ -18,7 +18,7 @@ const getDirRule = ( rule, dir, options ) => {
 
 const setRuleDir = ( rule, dir, options )=> {
     const { selector } = rule
-    rule.selector = isSelectorHasDir( selector ) ? selector : addDirToSelectors( selector, dir, options )
+    rule.selector = isSelectorHasDir( selector, options ) ? selector : addDirToSelectors( selector, dir, options )
 }
 
 const rtlifyRule = rule => {
@@ -27,11 +27,11 @@ const rtlifyRule = rule => {
     return ( rtlResult !== rule.toString() ) ? rtlResult : false
 }
 
-const processSrcRule = rule => {
+const processSrcRule = ( rule, options )=> {
     if ( rule.nodes.length === 0 ) {
         rule.remove()
     } else {
-        setRuleDir( rule )
+        setRuleDir( rule, null, options )
     }
 }
 
