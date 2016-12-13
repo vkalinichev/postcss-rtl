@@ -4,12 +4,16 @@ const affectedProps = require( './affected-props' )
 const { isKeyframeRule, isKeyframeAlreadyProcessed, isKeyframeSymmetric, rtlifyKeyframe } = require( './keyframes' )
 const { getDirRule, processSrcRule } = require( './rules' )
 const { rtlifyDecl, ltrifyDecl } = require( './decls' )
+const { isSelectorHasDir } = require( './selectors' )
 
-module.exports = postcss.plugin( 'postcss-rtl', ( options = {} ) => css => {
+const defaultOptions = {
+    addPrefixToSelector: null, // customized function for joining prefix and selector
+    markType: 'class'
+}
 
-    // customized function for joining prefix and selector
-    const addPrefixToSelector = options.addPrefixToSelector
+module.exports = postcss.plugin( 'postcss-rtl', ( options = defaultOptions ) => css => {
 
+    const { addPrefixToSelector } = options
     let keyframes = []
 
     // collect @keyframes
@@ -28,7 +32,7 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options = {} ) => css => {
         let rtlDecls = []
         let dirDecls = []
 
-        if ( rule.selector.match( /\[dir/ ) ) return
+        if ( isSelectorHasDir( rule.selector ) ) return
         if ( isKeyframeRule( rule.parent ) ) return
 
         rule.walkDecls( decl => {
@@ -48,13 +52,13 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options = {} ) => css => {
 
         if ( rtlDecls.length ) {
             let ltrDirRule
-            getDirRule( rule, 'rtl', addPrefixToSelector ).append( rtlDecls )
-            ltrDirRule = getDirRule( rule, 'ltr', addPrefixToSelector )
+            getDirRule( rule, 'rtl', options ).append( rtlDecls )
+            ltrDirRule = getDirRule( rule, 'ltr', options )
             ltrDecls.forEach( _decl => _decl.moveTo( ltrDirRule ) )
         }
 
         if ( dirDecls.length ) {
-            getDirRule( rule, 'dir', addPrefixToSelector ).append( dirDecls )
+            getDirRule( rule, 'dir', options ).append( dirDecls )
         }
 
         /* set dir attrs */

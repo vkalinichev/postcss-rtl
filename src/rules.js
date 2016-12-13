@@ -1,11 +1,11 @@
 const rtlcss = require( 'rtlcss' )
 const { isSelectorHasDir, addDirToSelectors } = require( './selectors' )
 
-const getDirRule = ( rule, dir, addPrefixToSelector ) => {
+const getDirRule = ( rule, dir, options ) => {
     const next = rule.next()
     let selector = rule.selector
 
-    selector = isSelectorHasDir( selector ) ? selector : addDirToSelectors( selector, dir, addPrefixToSelector )
+    selector = isSelectorHasDir( selector ) ? selector : addDirToSelectors( selector, dir, options )
 
     if ( rule.selector === selector ) {
         return rule
@@ -16,9 +16,9 @@ const getDirRule = ( rule, dir, addPrefixToSelector ) => {
     }
 }
 
-const setRuleDir = ( rule, dir, addPrefixToSelector )=> {
+const setRuleDir = ( rule, dir, options )=> {
     const { selector } = rule
-    rule.selector = isSelectorHasDir( selector ) ? selector : addDirToSelectors( selector, dir, addPrefixToSelector )
+    rule.selector = isSelectorHasDir( selector ) ? selector : addDirToSelectors( selector, dir, options )
 }
 
 const rtlifyRule = rule => {

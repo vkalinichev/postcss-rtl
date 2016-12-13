@@ -1,5 +1,5 @@
 const isSelectorHasDir = ( selector = '' ) =>
-    !!selector.match( /^html\[dir(=".+")?\]/ )
+    !!selector.match( /\[dir(=".+")?\]/ )
 
 const isHtmlSelector = ( selector = '' ) =>
     !!selector.match( /^html/ )
@@ -7,7 +7,9 @@ const isHtmlSelector = ( selector = '' ) =>
 const isRootSelector = ( selector = '' ) =>
     !!selector.match( /:root/ )
 
-const addDirToSelectors = ( selectors = '', dir, addPrefixToSelector ) => {
+const addDirToSelectors = ( selectors = '', dir, options={} ) => {
+
+    const { addPrefixToSelector } = options
     let prefix
 
     switch ( dir ) {
