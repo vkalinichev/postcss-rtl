@@ -62,6 +62,30 @@ test( 'Removes original rule without symmetric declarations', t => run( t,
     '[dir=rtl] a { text-align: right }'
 ) )
 
+test( 'Adds prefix to the html element', t => run( t,
+    'html { text-align: left }',
+    'html[dir=ltr] { text-align: left } ' +
+    'html[dir=rtl] { text-align: right }'
+) )
+
+test( 'Adds prefix to the html element with class', t => run( t,
+    'html.foo { text-align: left }',
+    'html[dir=ltr].foo { text-align: left } ' +
+    'html[dir=rtl].foo { text-align: right }'
+) )
+
+test( 'Adds prefix to the :root element', t => run( t,
+    ':root { text-align: left }',
+    '[dir=ltr]:root { text-align: left } ' +
+    '[dir=rtl]:root { text-align: right }'
+) )
+
+test( 'Adds prefix to the :root element with class', t => run( t,
+    ':root.foo { text-align: left }',
+    '[dir=ltr]:root.foo { text-align: left } ' +
+    '[dir=rtl]:root.foo { text-align: right }'
+) )
+
 test( 'Use custom `addPrefixToSelector` function', t => run( t,
     'a { text-align: left }',
     '[dir=ltr] > a { text-align: left } ' +
