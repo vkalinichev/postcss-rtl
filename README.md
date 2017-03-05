@@ -3,6 +3,7 @@
 [![npm][npm-img]][npm]
 [![Build Status][ci-img]][ci]
 [![npm][npm-dwnlds-img]][npm]
+[![Package Quality][quality-img]][quality]
 [![license][lic-img]][lic]
 
 [ci-img]:  https://img.shields.io/travis/vkalinichev/postcss-rtl.svg
@@ -10,6 +11,9 @@
 
 [npm-img]: https://img.shields.io/npm/v/postcss-rtl.svg
 [npm]:     https://npmjs.org/package/postcss-rtl
+
+[quality-img]: http://npm.packagequality.com/shield/postcss-rtl.svg
+[quality]: http://packagequality.com/#?package=postcss-rtl
 
 [lic-img]: https://img.shields.io/github/license/vkalinichev/postcss-rtl.svg
 [lic]:     https://github.com/vkalinichev/postcss-rtl/blob/master/License
