@@ -1,6 +1,6 @@
 {
   "name": "postcss-rtl",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "PostCSS plugin for RTL-optimizations",
   "keywords": [
     "postcss",
