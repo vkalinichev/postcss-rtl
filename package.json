@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/vkalinichev/postcss-rtl",
   "main": "lib/index.js",
+  "files": [
+    "src",
+    "lib"
+  ],
   "dependencies": {
     "rtlcss": "^2.0.6"
   },

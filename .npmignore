@@ -2,10 +2,3 @@
 yarn.lock
 
 node_modules/
-
-build/
-demo/
-src/
-
-gulpfile.js
-test.js
