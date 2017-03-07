@@ -132,24 +132,31 @@ postcss([ rtl( options ) ])
 See [PostCSS] docs for examples for your environment.
 
 
-###With Gulp:
+### With Gulp:
 ```js
 gulp.src( 'style.css' )
     .pipe( postcss( [ rtl( options ) ]) )
     .pipe( gulp.dest( './dest' ) )
 ```
 
-###With Webpack:
+### With Webpack:
 ```js
 module.exports = {
   module: {
-    loaders: [ {
+    rules: [ {
       test: /\.css$/,
-      loader: "style!css!postcss"
+      use: [
+        { loader: 'style-loader' },
+        { loader: 'css-loader' },
+        { loader: 'postcss-loader',
+          options: {
+            plugins: function () {
+              return [ require( 'postcss-rtl' )( options ) ]
+            }
+          }  
+        }
+      ]
     } ]
-  },
-  postcss: function() {
-    return [ rtl( options )]
   }
 }
 ```
@@ -163,8 +170,8 @@ module.exports = {
     }
     ```
     
-* `prefixType`: allows you to define type of direction marks: 
-    * `attribute` ( by default): `.foo` => `[dir=rtl] .foo`
+* `prefixType`: Switches between adding attrinbutes and classes. Optional: 
+    * `attribute` (by default, recommended): `.foo` => `[dir=rtl] .foo`
     * `class` (useful for IE6): `.foo` => `.dir-rtl .foo`
       
 ## Future
