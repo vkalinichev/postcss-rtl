@@ -36,15 +36,17 @@
     "gulp-postcss": "^6.2.0",
     "gulp-sourcemaps": "^2.2.0",
     "postcss": "^5.2.5",
+    "publish-please": "^2.2.0",
     "require-new": "^1.1.0",
     "run-sequence": "^1.2.2"
   },
   "scripts": {
     "build": "babel src -d lib",
-    "prepublish": "npm run build && npm test",
+    "prepublish": "publish-please guard && npm run build && npm test",
     "start": "gulp",
     "lint": " eslint lib/*.js",
-    "test": "ava"
+    "test": "ava",
+    "publish-please": "publish-please"
   },
   "engines": {
     "node": ">=0.12"
