@@ -18,7 +18,7 @@ const rtlifyDecl = ( decl, keyframes ) => {
     } else {
         const rtlResult = rtlcss.process( decl, null, null )
         if ( rtlResult === decl.toString() ) { return null }
-        [ prop, value ] = rtlResult.split( /:\s*/ )
+        [ , prop, value ] = rtlResult.match( /([^:]*):\s*(.*)/ ) || []
     }
     return { prop, value }
 }

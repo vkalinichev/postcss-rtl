@@ -96,3 +96,9 @@ test( 'Use custom `addPrefixToSelector` function', t => run( t,
         }
     }
 ) )
+
+test( 'Should correctly process values containing commas', t => run( t,
+    'div { background: url(\'http://placecage.com/400/400\') 0 0 }',
+    '[dir=ltr] div { background: url(\'http://placecage.com/400/400\') 0 0 } ' +
+    '[dir=rtl] div { background: url(\'http://placecage.com/400/400\') 100% 0 }'
+) )
