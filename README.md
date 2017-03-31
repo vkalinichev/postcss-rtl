@@ -25,7 +25,7 @@
 Generates RTL rules with flipped properties.
 Use one file for both directions!
 
-##Example:
+## Example:
 
 This:
 ```css
