@@ -102,3 +102,9 @@ test( 'Should correctly process values containing commas', t => run( t,
     '[dir=ltr] div { background: url(\'http://placecage.com/400/400\') 0 0 } ' +
     '[dir=rtl] div { background: url(\'http://placecage.com/400/400\') 100% 0 }'
 ) )
+
+test( 'Should correctly process values containing !important', t => run( t,
+    '.test{margin-left:0 !important;padding-left:0 !important}',
+    '[dir=ltr] .test { margin-left:0 !important; padding-left:0 !important } ' +
+    '[dir=rtl] .test { margin-right:0 !important; padding-right:0 !important }'
+) )
