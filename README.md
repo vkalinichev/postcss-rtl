@@ -120,6 +120,18 @@ Converts to:
 }
 ```
 
+#### Ignoring specific declarations
+
+This:
+```css
+/* rtl:ignore */ .foo { padding-left: 0 }
+```
+
+Converts to:
+```css
+.foo { padding-left: 0 }
+```
+
 ## Usage
 Just plug it to PostCSS:
 ```js
@@ -175,7 +187,7 @@ module.exports = {
     * `class` (useful for IE6): `.foo` => `.dir-rtl .foo`
       
 ## Future
-- Processing [rtlcss-directives]
+- Processing `/* rtl:begin:ignore */` and `/* rtl:end:ignore */`
 
 ## Thanks
 Great thanks to projects:
