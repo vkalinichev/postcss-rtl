@@ -133,13 +133,14 @@ Converts to:
 ```
 
 ## Usage
-Just plug it to PostCSS:
+1. Plug it to PostCSS
+2. Manage direction by switching between `dir="ltr"` and `dir="rtl"` on `<html>` element.
+
 ```js
 const postcss = require('postcss')
 const rtl = require('postcss-rtl')
  
 postcss([ rtl( options ) ])
-      
 ```
 See [PostCSS] docs for examples for your environment.
 
