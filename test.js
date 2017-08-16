@@ -108,3 +108,17 @@ test( 'Should correctly process values containing !important', t => run( t,
     '[dir=ltr] .test { margin-left:0 !important; padding-left:0 !important } ' +
     '[dir=rtl] .test { margin-right:0 !important; padding-right:0 !important }'
 ) )
+
+test ( 'Should ignore declarations prefixed with /* rtl:ignore */', t => run( t,
+    '/* rtl:ignore */ .test { margin-left:0; padding-left:0 }',
+    '.test { margin-left:0; padding-left:0 }',
+) )
+
+test ( ' /* rtl:ignore */: Should leave other selectors alone', t => run( t,
+    '/* rtl:ignore */ .test { margin-left:0 } ' +
+    '.rtled { margin-left:0; padding-left:0 }',
+
+    '.test { margin-left:0 } ' +
+    '[dir=ltr] .rtled { margin-left:0; padding-left:0 } ' +
+    '[dir=rtl] .rtled { margin-right:0; padding-right:0 }',
+) )

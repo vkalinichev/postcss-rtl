@@ -32,6 +32,16 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
         if ( isSelectorHasDir( rule.selector, options ) ) return
         if ( isKeyframeRule( rule.parent ) ) return
 
+        let commentNode
+        if (
+            rule.parent &&
+            rule.parent.nodes &&
+            ( commentNode = rule.parent.nodes[0] ).type === 'comment' &&
+            commentNode.text === 'rtl:ignore' ) {
+                // we were told to ignore the next directive
+            rule.parent.removeChild( commentNode )
+            return
+        }
         rule.walkDecls( decl => {
             const rtl = rtlifyDecl( decl, keyframes )
 
