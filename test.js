@@ -124,8 +124,35 @@ test ( '/* rtl:ignore */: Should leave other selectors alone', t => run( t,
     '[dir=rtl] .rtled { margin-right:0; padding-right:0 }',
 ) )
 
-
 test ( '/* rtl:ignore */: should understand overrides', t => run( t,
     '.x { left: 0 } /* rtl:ignore */ .x { direction: ltr }',
     '[dir=ltr] .x { left: 0 } [dir=rtl] .x { right: 0 } .x { direction: ltr }'
+) )
+
+test ( '/* rtl:begin:ignore */ starts ignore mode', t => run( t,
+    `/* rtl:begin:ignore */
+.foo { padding-left: 0 }
+.bar { direction: ltr }`,
+    `.foo { padding-left: 0 }
+.bar { direction: ltr }`
+) )
+
+test ( '/* rtl:end:ignore */ stops ignore mode', t => run( t,
+    `/* rtl:begin:ignore */
+.foo { padding-left: 0 }
+/* rtl:end:ignore */
+.bar { direction: ltr }`,
+    `.foo { padding-left: 0 }
+[dir=ltr] .bar { direction: ltr }
+[dir=rtl] .bar { direction: rtl }`
+) )
+
+test ( '/* rtl:ignore */ can be used inside /* rtl:begin:ignore */ and /* rtl:end:ignore */', t => run( t,
+    `/* rtl:begin:ignore */
+.foo { padding-left: 0 }
+/* rtl:ignore */
+.bar { direction: ltr }
+/* rtl:end:ignore */`,
+    `.foo { padding-left: 0 }
+.bar { direction: ltr }`
 ) )
