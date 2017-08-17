@@ -25,9 +25,25 @@
 Generates RTL rules with flipped properties.
 Use one file for both directions!
 
-## Example:
+* [Examples](#examples)
+    * [Simple properties](#simple-properties)
+    * [Animations](#animations)
+    * [Ignoring specific declarations](#ignoring-specific-declarations)
+* [Usage](#usage)
+    * [With Webpack](#with-webpack)
+    * [With Gulp](#with-gulp)
+    * [Options](#options)
+* [Thanks](#thanks)
 
-This:
+## Examples
+
+### Simple properties
+
+In most cases all you need is flip property name or value
+from `left` to `right` or change values order in full-valued shorthand
+from `top-right-bottom-left` to `top-left-bottom-right`.
+
+LTR input:
 ```css
 .foo {
     float: right;
@@ -44,7 +60,7 @@ This:
 }
 ```
 
-Converts to:
+LTR+RTL output:
 ```css
 .foo {
     font-size: 13px
@@ -75,7 +91,11 @@ Converts to:
 }
 ```
 
-This:
+### Animations
+In case of flippable keyframes-animations it will be splitted to two
+direction-based rules with `-ltr` or `-rtl` suffixes
+
+LTR input:
 ```css
 .foo {
     animation: 1s slide 0s ease-in-out
@@ -91,7 +111,7 @@ This:
 }
 ```
 
-Converts to:
+LTR+RTL output:
 ```css
 [dir="ltr"] .foo {
     animation: 1s slide-ltr 0s ease-in-out
@@ -120,35 +140,34 @@ Converts to:
 }
 ```
 
-#### Ignoring specific declarations
+### Ignoring specific declarations
+To skip flipping specific declarations use some of supported directives:
 
-This:
+* `/* rtl:ignore */` - to ignore the following rule
+* `/* rtl:begin:ignore */` and `/* rtl:end:ignore */` - to ignore rules within scope
+    
+Ignore one rule:
 ```css
-/* rtl:ignore */ .foo { padding-left: 0 }
+/* rtl:ignore */
+.foo {
+    padding-left: 0
+}
 ```
 
-Converts to:
-```css
-.foo { padding-left: 0 }
-```
-
-This:
+Block-syntax to ignore rules within scope:
 ```css
 /* rtl:begin:ignore */
-.foo { padding-left: 0 }
-.bar { direction: ltr }
+.foo {
+    padding-left: 0
+}
+.bar {
+    direction: ltr
+}
 /* rtl:end:ignore */
-```
-
-Converts to:
-```css
-.foo { padding-left: 0 }
-.bar { direction: ltr }
 ```
 
 ## Usage
 1. Plug it to PostCSS
-2. Manage direction by switching between `dir="ltr"` and `dir="rtl"` on `<html>` element.
 
 ```js
 const postcss = require('postcss')
@@ -156,15 +175,10 @@ const rtl = require('postcss-rtl')
  
 postcss([ rtl( options ) ])
 ```
+
 See [PostCSS] docs for examples for your environment.
 
-
-### With Gulp:
-```js
-gulp.src( 'style.css' )
-    .pipe( postcss( [ rtl( options ) ]) )
-    .pipe( gulp.dest( './dest' ) )
-```
+2. Manage direction by switching between `dir="ltr"` and `dir="rtl"` on `<html>` element.
 
 ### With Webpack:
 ```js
@@ -186,6 +200,13 @@ module.exports = {
     } ]
   }
 }
+```
+
+### With Gulp:
+```js
+gulp.src( 'style.css' )
+    .pipe( postcss( [ rtl( options ) ]) )
+    .pipe( gulp.dest( './dest' ) )
 ```
 
 ### Options
