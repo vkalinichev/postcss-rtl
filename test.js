@@ -1,6 +1,6 @@
 import postcss from 'postcss'
 import test    from 'ava'
-import plugin from './lib'
+import plugin from './src'
 
 const run = ( t, input, output, opts = {} ) =>
 
@@ -114,11 +114,17 @@ test ( 'Should ignore declarations prefixed with /* rtl:ignore */', t => run( t,
     '.test { margin-left:0; padding-left:0 }',
 ) )
 
-test ( ' /* rtl:ignore */: Should leave other selectors alone', t => run( t,
+test ( '/* rtl:ignore */: Should leave other selectors alone', t => run( t,
     '/* rtl:ignore */ .test { margin-left:0 } ' +
     '.rtled { margin-left:0; padding-left:0 }',
 
     '.test { margin-left:0 } ' +
     '[dir=ltr] .rtled { margin-left:0; padding-left:0 } ' +
     '[dir=rtl] .rtled { margin-right:0; padding-right:0 }',
+) )
+
+
+test ( '/* rtl:ignore */: should understand overrides', t => run( t,
+    '.x { left: 0 } /* rtl:ignore */ .x { direction: ltr }',
+    '[dir=ltr] .x { left: 0 } [dir=rtl] .x { right: 0 } .x { direction: ltr }'
 ) )
