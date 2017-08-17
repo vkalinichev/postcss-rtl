@@ -169,14 +169,14 @@ Block-syntax to ignore rules within scope:
 ## Usage
 1. Plug it to PostCSS
 
-```js
-const postcss = require('postcss')
-const rtl = require('postcss-rtl')
- 
-postcss([ rtl( options ) ])
-```
+    ```js
+    const postcss = require('postcss')
+    const rtl = require('postcss-rtl')
 
-See [PostCSS] docs for examples for your environment.
+    postcss([ rtl( options ) ])
+    ```
+
+    See [PostCSS] docs for examples for your environment.
 
 2. Manage direction by switching between `dir="ltr"` and `dir="rtl"` on `<html>` element.
 
