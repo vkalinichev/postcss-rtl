@@ -132,6 +132,20 @@ Converts to:
 .foo { padding-left: 0 }
 ```
 
+This:
+```css
+/* rtl:begin:ignore */
+.foo { padding-left: 0 }
+.bar { direction: ltr }
+/* rtl:end:ignore */
+```
+
+Converts to:
+```css
+.foo { padding-left: 0 }
+.bar { direction: ltr }
+```
+
 ## Usage
 1. Plug it to PostCSS
 2. Manage direction by switching between `dir="ltr"` and `dir="rtl"` on `<html>` element.
@@ -186,9 +200,6 @@ module.exports = {
 * `prefixType`: Switches between adding attrinbutes and classes. Optional: 
     * `attribute` (by default, recommended): `.foo` => `[dir=rtl] .foo`
     * `class` (useful for IE6): `.foo` => `.dir-rtl .foo`
-      
-## Future
-- Processing `/* rtl:begin:ignore */` and `/* rtl:end:ignore */`
 
 ## Thanks
 Great thanks to projects:

@@ -23,18 +23,38 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
         rtlifyKeyframe( rule )
     } )
 
+    let skip = 0
     // Simple rules (includes rules inside @media-queries)
-    css.walkRules( rule => {
+    css.walk( node => {
         let ltrDecls = []
         let rtlDecls = []
         let dirDecls = []
 
-        const prevNode = rule.prev()
-        if (prevNode && prevNode.type === 'comment' && prevNode.text === 'rtl:ignore') {
-            // we were told to ignore the next directive
-            prevNode.remove()
+        if ( node.type === 'comment' ) {
+            let isRtlComment = false
+            switch ( node.text ) {
+                case 'rtl:ignore':
+                    isRtlComment = true
+                    skip = 1
+                    break
+                case 'rtl:begin:ignore':
+                    isRtlComment = true
+                    skip = Infinity
+                    break
+                case 'rtl:end:ignore':
+                    isRtlComment = true
+                    skip = 0
+                    break
+            }
+            if ( isRtlComment ) {
+                node.remove()
+                return
+            }
+        } else if ( node.type !== 'rule' ) {
             return
         }
+        if ( skip-- > 0 ) return
+        const rule = node
 
         if ( isSelectorHasDir( rule.selector, options ) ) return
         if ( isKeyframeRule( rule.parent ) ) return
