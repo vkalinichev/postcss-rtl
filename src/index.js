@@ -48,8 +48,8 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
             }
             if ( isRtlComment ) {
                 node.remove()
-                return
             }
+            return
         } else if ( node.type !== 'rule' ) {
             return
         }
