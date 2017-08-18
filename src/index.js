@@ -31,26 +31,22 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
         let dirDecls = []
 
         if ( node.type === 'comment' ) {
-            let isRtlComment = false
             switch ( node.text ) {
                 case 'rtl:ignore':
-                    isRtlComment = true
                     skip = 1
+                    node.remove()
                     break
                 case 'rtl:begin:ignore':
-                    isRtlComment = true
                     skip = Infinity
+                    node.remove()
                     break
                 case 'rtl:end:ignore':
-                    isRtlComment = true
                     skip = 0
+                    node.remove()
                     break
             }
-            if ( isRtlComment ) {
-                node.remove()
-                return
-            }
-        } else if ( node.type !== 'rule' ) {
+        }
+        if ( node.type !== 'rule' ) {
             return
         }
         if ( skip-- > 0 ) return
