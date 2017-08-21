@@ -33,7 +33,7 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
         if ( node.type === 'comment' ) {
             switch ( node.text ) {
                 case 'rtl:ignore':
-                    skip = 1
+                    skip = Math.max(skip, 1)
                     node.remove()
                     break
                 case 'rtl:begin:ignore':
