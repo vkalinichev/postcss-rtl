@@ -152,9 +152,11 @@ test ( '/* rtl:ignore */ can be used inside /* rtl:begin:ignore */ and /* rtl:en
 .foo { padding-left: 0 }
 /* rtl:ignore */
 .bar { direction: ltr }
+.baz { left: 0 }
 /* rtl:end:ignore */`,
     `.foo { padding-left: 0 }
-.bar { direction: ltr }`
+.bar { direction: ltr }
+.baz { left: 0 }`
 ) )
 
 test ( 'that it ignores normal comments ', t => run( t,
