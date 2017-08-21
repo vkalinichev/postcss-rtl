@@ -48,7 +48,8 @@
     "prepare": "npm run build && npm test",
     "start": "gulp",
     "lint": " eslint src/*.js",
-    "test": "ava"
+    "test": "ava",
+    "test:watch": "ava --watch"
   },
   "engines": {
     "node": ">=0.12"
