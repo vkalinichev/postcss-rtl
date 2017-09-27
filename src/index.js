@@ -13,7 +13,7 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
 
     options = validateOptions( options )
 
-    const handleAnimation = ( removeComments = false ) => {
+    const handleIgnores = ( removeComments = false ) => {
         let isIgnored = false
         let continuousIgnore = false
 
@@ -46,8 +46,8 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
         }
     }
 
-    const isKeyframeIgnored = handleAnimation()
-    const isRuleIgnored = handleAnimation( true )
+    const isKeyframeIgnored = handleIgnores()
+    const isRuleIgnored = handleIgnores( true )
 
     // collect @keyframes
     css.walk( rule => {
