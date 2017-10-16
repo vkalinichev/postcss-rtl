@@ -13,8 +13,48 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
 
     options = validateOptions( options )
 
+    const handleIgnores = ( removeComments = false ) => {
+        let isIgnored = false
+        let continuousIgnore = false
+
+        return ( node ) => {
+            if ( node.type === 'comment' ) {
+                switch ( node.text ) {
+                    case 'rtl:ignore':
+                        isIgnored = true
+                        continuousIgnore = continuousIgnore || false
+                        removeComments && node.remove()
+                        break
+                    case 'rtl:begin:ignore':
+                        isIgnored = true
+                        continuousIgnore = true
+                        removeComments && node.remove()
+                        break
+                    case 'rtl:end:ignore':
+                        isIgnored = false
+                        continuousIgnore = false
+                        removeComments && node.remove()
+                        break
+                }
+                return true
+            }
+            if ( !continuousIgnore && isIgnored ) {
+                isIgnored = false
+                return true
+            }
+            return isIgnored
+        }
+    }
+
+    const isKeyframeIgnored = handleIgnores()
+    const isRuleIgnored = handleIgnores( true )
+
     // collect @keyframes
-    css.walkAtRules( rule => {
+    css.walk( rule => {
+
+        if ( isKeyframeIgnored( rule ) ) return
+        if ( rule.type !== 'atrule' ) return
+
         if ( !isKeyframeRule( rule ) ) return
         if ( isKeyframeAlreadyProcessed( rule ) ) return
         if ( isKeyframeSymmetric( rule ) ) return
@@ -23,33 +63,17 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
         rtlifyKeyframe( rule )
     } )
 
-    let skip = 0
     // Simple rules (includes rules inside @media-queries)
     css.walk( node => {
         let ltrDecls = []
         let rtlDecls = []
         let dirDecls = []
 
-        if ( node.type === 'comment' ) {
-            switch ( node.text ) {
-                case 'rtl:ignore':
-                    skip = Math.max(skip, 1)
-                    node.remove()
-                    break
-                case 'rtl:begin:ignore':
-                    skip = Infinity
-                    node.remove()
-                    break
-                case 'rtl:end:ignore':
-                    skip = 0
-                    node.remove()
-                    break
-            }
-        }
+        if ( isRuleIgnored( node ) ) return
+
         if ( node.type !== 'rule' ) {
             return
         }
-        if ( skip-- > 0 ) return
         const rule = node
 
         if ( isSelectorHasDir( rule.selector, options ) ) return

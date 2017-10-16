@@ -163,3 +163,26 @@ test ( 'that it ignores normal comments ', t => run( t,
     '/* some comment */ .foo { padding-left: 0 }',
     '/* some comment */ [dir=ltr] .foo { padding-left: 0 } [dir=rtl] .foo { padding-right: 0 }'
 ) )
+
+test( 'Should add direction to flippable keyframes-animations', t => run( t,
+    '@keyframes bar { 100% { transform: rotate(360deg); } }',
+    '@keyframes bar-ltr { 100% { transform: rotate(360deg); } } ' +
+    '@keyframes bar-rtl { 100% { transform: rotate(-360deg); } }'
+) )
+
+test( 'Should ignore keyframes-animation prefixed with /* rtl:ignore */', t => run( t,
+    '/* rtl:ignore */ @keyframes bar { 100% { transform: rotate(360deg); } }',
+    '@keyframes bar { 100% { transform: rotate(360deg); } }'
+) )
+
+test( '/* rtl:begin:ignore */ starts ignore mode for both keyframes and rules', t => run( t,
+    '/* rtl:begin:ignore */ @keyframes bar { 100% { transform: rotate(360deg); } } .foo { left: 5px }',
+    '@keyframes bar { 100% { transform: rotate(360deg); } } .foo { left: 5px }'
+) )
+
+test( '/* rtl:end:ignore */ stops ignore mode for keyframes', t => run( t,
+    '/* rtl:begin:ignore */ @keyframes bar { 100% { transform: rotate(360deg); } } /* rtl:end:ignore */' +
+    '.foo { left: 5px }',
+    '@keyframes bar { 100% { transform: rotate(360deg); } }' +
+    '[dir=ltr] .foo { left: 5px; }[dir=rtl] .foo { right: 5px; }'
+) )
