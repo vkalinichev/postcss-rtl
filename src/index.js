@@ -48,6 +48,7 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
 
     const isKeyframeIgnored = handleIgnores()
     const isRuleIgnored = handleIgnores( true )
+    const valueIgnoreDirective = /\/\*\s*rtl\s*:\s*ignore\s*\*\/$/
 
     // collect @keyframes
     css.walk( rule => {
@@ -80,6 +81,15 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
         if ( isKeyframeRule( rule.parent ) ) return
 
         rule.walkDecls( decl => {
+            const rawValue = decl.raws.value
+            const value = ( rawValue && rawValue.raw )
+
+            // Does the raw value contain a rtl:ignore comment?
+            if ( value && value.match( valueIgnoreDirective ) ) {
+                // Skip this directive.
+                return
+            }
+
             const rtl = rtlifyDecl( decl, keyframes )
 
             if ( rtl ) {
@@ -102,7 +112,7 @@ module.exports = postcss.plugin( 'postcss-rtl', ( options ) => css => {
                 _decl.cleanRaws( _decl.root() === ltrDirRule.root() )
                 rule.removeChild( _decl )
                 ltrDirRule.append( _decl )
-            })
+            } )
         }
 
         if ( dirDecls.length ) {

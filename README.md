@@ -143,7 +143,7 @@ LTR+RTL output:
 ### Ignoring specific declarations
 To skip flipping specific declarations use some of supported directives:
 
-* `/* rtl:ignore */` - to ignore the following rule
+* `/* rtl:ignore */` - to ignore the following rule *or* the containing declaration
 * `/* rtl:begin:ignore */` and `/* rtl:end:ignore */` - to ignore rules within scope
     
 Ignore one rule:
@@ -164,6 +164,14 @@ Block-syntax to ignore rules within scope:
     direction: ltr
 }
 /* rtl:end:ignore */
+```
+
+Value-syntax to ignore a single CSS declaration:
+```css
+.foo {
+    margin-left: 20px;
+    padding-right: 20px /* rtl:ignore */;
+}
 ```
 
 ## Usage
