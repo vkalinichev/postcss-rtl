@@ -164,6 +164,11 @@ test ( 'that it ignores normal comments ', t => run( t,
     '/* some comment */ [dir=ltr] .foo { padding-left: 0 } [dir=rtl] .foo { padding-right: 0 }'
 ) )
 
+test ( 'Value based ignore comments are honored', t => run( t,
+    '.foo { margin-left: 12px; padding-left: 12px /* rtl:ignore */; }',
+    '.foo { padding-left: 12px /* rtl:ignore */; } [dir=ltr] .foo { margin-left: 12px; } [dir=rtl] .foo { margin-right: 12px; }'
+) )
+
 test( 'Should add direction to flippable keyframes-animations', t => run( t,
     '@keyframes bar { 100% { transform: rotate(360deg); } }',
     '@keyframes bar-ltr { 100% { transform: rotate(360deg); } } ' +
