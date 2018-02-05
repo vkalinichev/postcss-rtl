@@ -46,9 +46,8 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
     }
   }
 
-  const isKeyframeIgnored = handleIgnores()
-  const isRuleIgnored = handleIgnores(true)
-  const valueIgnoreDirective = /\/\*\s*rtl\s*:\s*ignore\s*\*\/$/
+    const isKeyframeIgnored = handleIgnores()
+    const isRuleIgnored = handleIgnores( true )
 
   // collect @keyframes
   css.walk(rule => {
@@ -64,7 +63,53 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
     rtlifyKeyframe(rule, options)
   })
 
-  // Simple rules (includes rules inside @media-queries)
+  const valueIgnoreDirective = /\/\* *rtl *: *ignore *\*\/$/
+  const valuePrependDirective = /\/\* *rtl *: *prepend *: *([\S| ]*?) *\*\/$/
+  const valueAppendDirective = /\/\* *rtl *: *append *: *([\S| ]*?) *\*\/$/
+  const valueReplacementDirective = /\/\* *rtl *: *([\S| ]*?) *\*\/$/
+
+  const handleValueDirectives = (decl, ltrDecls, rtlDecls) => {
+    const {raw} = (decl.raws.value || {})
+
+    // Is there NO raw value?
+    if (!raw) return false
+
+    // Does the raw value contain an ignore directive?
+    if (raw.match(valueIgnoreDirective)) return true
+
+    // Extract directive values using RegExp.
+    const [prependValue, appendValue, replaceValue] = [valuePrependDirective, valueAppendDirective, valueReplacementDirective]
+      .map(regEx => (raw.match(regEx) || {})[1])
+
+    const addDecls = value => {
+      // Create LTR declaration.
+      ltrDecls.push(ltrifyDecl(decl, keyframes))
+
+      // Create RTL declaration with replacement value and add.
+      rtlDecls.push(decl.clone({
+        value: value
+      }))
+
+      return true
+    }
+
+    // Does the raw value contain a prepend directive?
+    if (prependValue) {
+      return addDecls([prependValue, decl.value].join(' '))
+    }
+
+    // Does the raw value contain an append directive?
+    if (appendValue) {
+      return addDecls([decl.value, appendValue].join(' '))
+    }
+
+    // Does the raw value contain a replace directive?
+    if (replaceValue) {
+      return addDecls(replaceValue)
+    }
+
+    return false
+  }// Simple rules (includes rules inside @media-queries)
   css.walk(node => {
     let ltrDecls = []
     let rtlDecls = []
@@ -80,15 +125,9 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
     if (isSelectorHasDir(rule.selector, options)) return
     if (isKeyframeRule(rule.parent)) return
 
-    rule.walkDecls(decl => {
-      const rawValue = decl.raws.value
-      const value = (rawValue && rawValue.raw)
-
-      // Does the raw value contain a rtl:ignore comment?
-      if (value && value.match(valueIgnoreDirective)) {
-        // Skip this directive.
-        return
-      }
+    rule.walkDecls( decl => {
+      // Is there a  value directive?
+      if ( handleValueDirectives( decl, ltrDecls, rtlDecls ) )return
 
       const rtl = rtlifyDecl(decl, keyframes)
 

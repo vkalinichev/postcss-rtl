@@ -235,3 +235,18 @@ test('Should create only RTL version', t => run(t,
   '@keyframes bar-rtl { 100% { transform: rotate(-360deg); } }',
   { onlyDirection: 'rtl' }
 ))
+
+test ( 'Value replacement directives are honored', t => run( t,
+  '.foo { font-weight: bold; flex-direction: row/* rtl:row-reverse */; }',
+  '.foo { font-weight: bold; }[dir=ltr] .foo { flex-direction: row/* rtl:row-reverse */; }[dir=rtl] .foo { flex-direction: row-reverse; }'
+) )
+
+test ( 'Value prepend directives are honored', t => run( t,
+  '.foo { font-weight: bold; font-family: "Droid Sans", "Helvetica Neue", Arial, sans-serif/*rtl:prepend:"Droid Arabic Kufi",*/; }',
+  '.foo { font-weight: bold; }[dir=ltr] .foo { font-family: "Droid Sans", "Helvetica Neue", Arial, sans-serif/*rtl:prepend:"Droid Arabic Kufi",*/; }[dir=rtl] .foo { font-family: "Droid Arabic Kufi", "Droid Sans", "Helvetica Neue", Arial, sans-serif; }'
+) )
+
+test ( 'Value append directives are honored', t => run( t,
+  '.foo { font-weight: bold; transform: rotate(45deg)/* rtl:append: scaleX(-1) */; }',
+  '.foo { font-weight: bold; }[dir=ltr] .foo { transform: rotate(45deg)/* rtl:append: scaleX(-1) */; }[dir=rtl] .foo { transform: rotate(45deg) scaleX(-1); }'
+) )

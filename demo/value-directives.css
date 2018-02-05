@@ -1,0 +1,6 @@
+.foo {
+    font-weight: bold;
+    font-family: "Droid Sans", "Helvetica Neue", Arial, sans-serif/*rtl:prepend:"Droid Arabic Kufi",*/;
+    transform: rotate(45deg)/* rtl:append: scaleX(-1) */;
+    flex-direction: row/* rtl: row-reverse */;
+}
