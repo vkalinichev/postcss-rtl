@@ -12,14 +12,23 @@ const isKeyframeAlreadyProcessed = rule =>
 const isKeyframeSymmetric = rule =>
   !rtlifyRule(rule)
 
-const rtlifyKeyframe = rule => {
-  let rtlRule = rule.cloneAfter({params: rule.params + '-rtl'})
-  rule.params += '-ltr'
+const rtlifyKeyframe = (rule, options) => {
+  const ruleName = rule.params
 
-  rtlRule.walkDecls(decl => {
-    const rtl = rtlifyDecl(decl)
-    decl.value = rtl ? rtl.value : decl.value
-  })
+  rule.params = ruleName + '-ltr'
+
+  if (!options.onlyDirection || options.onlyDirection === 'rtl') {
+    let rtlRule = rule.cloneAfter({params: ruleName + '-rtl'})
+
+    rtlRule.walkDecls(decl => {
+      const rtl = rtlifyDecl(decl)
+      decl.value = rtl ? rtl.value : decl.value
+    })
+  }
+
+  if (options.onlyDirection && options.onlyDirection === 'rtl') {
+    rule.remove()
+  }
 }
 
 module.exports = {

@@ -202,17 +202,21 @@ test('/* rtl:end:ignore */ stops ignore mode for keyframes', t => run(t,
 ))
 
 test('Should create only LTR version', t => run(t,
-  'a { font-size: 1em; text-align: left }',
+  'a { font-size: 1em; text-align: left }' +
+  '@keyframes bar { 100% { transform: rotate(360deg); } }',
 
   'a { font-size: 1em }' +
-  '[dir=ltr] a { text-align: left }',
+  '[dir=ltr] a { text-align: left }' +
+  '@keyframes bar-ltr { 100% { transform: rotate(360deg); } }',
   { onlyDirection: 'ltr' }
 ))
 
 test('Should create only RTL version', t => run(t,
-  'a { font-size: 1em; text-align: left }',
+  'a { font-size: 1em; text-align: left }' +
+  '@keyframes bar { 100% { transform: rotate(360deg); } }',
 
   'a { font-size: 1em }' +
-  '[dir=rtl] a { text-align: right }',
+  '[dir=rtl] a { text-align: right }' +
+  '@keyframes bar-rtl { 100% { transform: rotate(-360deg); } }',
   { onlyDirection: 'rtl' }
 ))

@@ -61,7 +61,7 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
     if (isKeyframeSymmetric(rule)) return
 
     keyframes.push(rule.params)
-    rtlifyKeyframe(rule)
+    rtlifyKeyframe(rule, options)
   })
 
   // Simple rules (includes rules inside @media-queries)
@@ -118,7 +118,7 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
         }
       })
 
-      if (options.onlyDirection === 'rtl') {
+      if (options.onlyDirection && options.onlyDirection === 'rtl') {
         ltrDirRule.remove()
       }
     }
