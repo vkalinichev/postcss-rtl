@@ -105,14 +105,22 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
     })
 
     if (rtlDecls.length) {
-      let ltrDirRule
-      getDirRule(rule, 'rtl', options).append(rtlDecls)
-      ltrDirRule = getDirRule(rule, 'ltr', options)
+      if (!options.onlyDirection || options.onlyDirection === 'rtl') {
+        getDirRule(rule, 'rtl', options).append(rtlDecls)
+      }
+
+      let ltrDirRule = getDirRule(rule, 'ltr', options)
       ltrDecls.forEach(_decl => {
         _decl.cleanRaws(_decl.root() === ltrDirRule.root())
         rule.removeChild(_decl)
-        ltrDirRule.append(_decl)
+        if (!options.onlyDirection || options.onlyDirection === 'ltr') {
+          ltrDirRule.append(_decl)
+        }
       })
+
+      if (options.onlyDirection === 'rtl') {
+        ltrDirRule.remove()
+      }
     }
 
     if (dirDecls.length) {

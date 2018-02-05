@@ -200,3 +200,19 @@ test('/* rtl:end:ignore */ stops ignore mode for keyframes', t => run(t,
   '[dir=ltr] .foo { left: 5px }'  +
   '[dir=rtl] .foo { right: 5px }'
 ))
+
+test('Should create only LTR version', t => run(t,
+  'a { font-size: 1em; text-align: left }',
+
+  'a { font-size: 1em }' +
+  '[dir=ltr] a { text-align: left }',
+  { onlyDirection: 'ltr' }
+))
+
+test('Should create only RTL version', t => run(t,
+  'a { font-size: 1em; text-align: left }',
+
+  'a { font-size: 1em }' +
+  '[dir=rtl] a { text-align: right }',
+  { onlyDirection: 'rtl' }
+))

@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.2.0] - 2018-02-05
+- Option `onlyDirection` for generating a LTR or a RTL version only ([#27](../../issues/27)).
+
 ## [1.1.0] - 2017-08-17
 - Supported `rtl:begin:ignore`/`rtl:end:ignore` directives (thanks to [@joscha](https://github.com/joscha))
 
@@ -29,7 +32,6 @@
 - Support of Node.js v0.12
 
 ## [0.1.0] - 2016-10-27
-- Using [RTLCSS]
+- Using [RTLCSS](https://github.com/MohammadYounes/rtlcss)
 - Start following [SemVer](http://semver.org) properly.
 
-[RTLCSS]: https://github.com/MohammadYounes/rtlcss
