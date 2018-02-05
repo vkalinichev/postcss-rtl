@@ -28,6 +28,7 @@ Use one file for both directions!
 * [Examples](#examples)
     * [Simple properties](#simple-properties)
     * [Animations](#animations)
+    * [Value directives](#value-directives)
     * [Ignoring specific declarations](#ignoring-specific-declarations)
 * [Usage](#usage)
     * [With Webpack](#with-webpack)
@@ -137,6 +138,45 @@ LTR+RTL output:
     to {
         transform: translate( 0 )
     }
+}
+```
+
+### Value directives
+
+To transform declaration values use value directives:
+
+* `/* rtl:prepend:{value} */` - to prepend the {value} before the current value
+* `/* rtl:append:{value} */` - to append the {value} after the current value
+* `/* rtl:{value} */` - to replace the current value with the supplied value
+
+**Source**
+
+```css
+.foo {
+    font-weight: bold;
+    font-family: "Droid Sans", "Helvetica Neue", Arial, sans-serif/*rtl:prepend:"Droid Arabic Kufi",*/;
+    transform: rotate(45deg)/* rtl:append: scaleX(-1) */;
+    flex-direction: row/* rtl: row-reverse */;
+}
+```
+
+**Result**
+
+```css
+.foo {
+    font-weight: bold;
+}
+
+[dir=ltr] .foo {
+    font-family: "Droid Sans", "Helvetica Neue", Arial, sans-serif/*rtl:prepend:"Droid Arabic Kufi",*/;
+    transform: rotate(45deg)/* rtl:append: scaleX(-1) */;
+    flex-direction: row/* rtl: row-reverse */;
+}
+
+[dir=rtl] .foo {
+    font-family: "Droid Arabic Kufi", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    transform: rotate(45deg) scaleX(-1);
+    flex-direction: row-reverse;
 }
 ```
 
