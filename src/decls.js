@@ -16,14 +16,15 @@ const rtlifyDecl = (decl, keyframes) => {
   if (decl.prop.match(/animation/)) {
     value = getProcessedKeyframeValue(decl, keyframes, 'rtl')
   } else {
-    const important = decl.important
-    decl.important = false
     const rtlResult = rtlcss.process(decl, null, null)
-    decl.important = important
+
     if (rtlResult === decl.toString()) {
       return null
     }
+
     [, prop, value] = rtlResult.match(/([^:]*):\s*(.*)/) || []
+
+    value = value.replace(/\s*!important/, '')
   }
   return {prop, value}
 }

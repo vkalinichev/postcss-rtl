@@ -104,8 +104,15 @@ test('Should correctly process values containing commas', t => run(t,
 
 test('Should correctly process values containing !important', t => run(t,
   '.test { margin-left: 0 !important; padding-left: 0 !important }',
+
   '[dir=ltr] .test { margin-left: 0 !important; padding-left: 0 !important }' +
   '[dir=rtl] .test { margin-right: 0 !important; padding-right: 0 !important }'
+))
+
+test('Shouldn not create unnecessary duplications with !important', t => run(t,
+  '.test { display: none !important }',
+
+  '.test { display: none !important }'
 ))
 
 test( 'Should correctly process values containing _display', t => run( t,
