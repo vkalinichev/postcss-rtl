@@ -108,6 +108,14 @@ test('Should correctly process values containing !important', t => run(t,
   '[dir=rtl] .test { margin-right: 0 !important; padding-right: 0 !important }'
 ))
 
+test( 'Should correctly process values containing _display', t => run( t,
+  '.test { float: left; _display: inline }',
+
+  '.test { _display: inline }' +
+  '[dir=ltr] .test { float: left }' +
+  '[dir=rtl] .test { float: right }'
+) )
+
 test('Should ignore declarations prefixed with /* rtl:ignore */', t => run(t,
   '/* rtl:ignore */ .test { margin-left:0; padding-left:0 }',
   '.test { margin-left:0; padding-left:0 }',
