@@ -13,7 +13,7 @@ const validateOptions = (options = {}) => {
     console.warn('Incorrect **addPrefixToSelector option. Must be a function')
   }
 
-  if (onlyDirection !== undefined && typeof onlyDirection !== 'string') {
+  if (onlyDirection && typeof onlyDirection !== 'string') {
     fixedOptions.onlyDirection = defaultOptions.onlyDirection
     console.warn('Incorrect onlyDirection option. Allowed values: ltr, rtl')
   }
