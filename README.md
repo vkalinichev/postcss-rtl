@@ -228,7 +228,7 @@ gulp.src( 'style.css' )
     
 * `onlyDirection`: generate only one-direction version: `ltr` or `rtl`
     
-* `prefixType`: Switches between adding attrinbutes and classes. Optional: 
+* `prefixType`: Switches between adding attributes and classes. Optional: 
     * `attribute` (by default, recommended): `.foo` => `[dir=rtl] .foo`
     * `class` (useful for IE6): `.foo` => `.dir-rtl .foo`
 
