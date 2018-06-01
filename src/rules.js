@@ -1,5 +1,17 @@
 const rtlcss = require('rtlcss')
 const {isSelectorHasDir, addDirToSelectors} = require('./selectors')
+const rtlcssOptions = {
+  name: 'Skip variables',
+  priority: 1,
+  directives: { control: {}, value: [] },
+  processors: [
+    {
+      name: '--',
+      expr: /^--/im,
+      action: (prop, value) => ({ prop, value })
+    }
+  ]
+}
 
 const getDirRule = (rule, dir, options) => {
   const next = rule.next()
@@ -22,7 +34,7 @@ const setRuleDir = (rule, dir, options) => {
 }
 
 const rtlifyRule = rule => {
-  const rtlResult = rtlcss.process(rule, null, null)
+  const rtlResult = rtlcss.process(rule, null, rtlcssOptions)
 
   return (rtlResult !== rule.toString()) ? rtlResult : false
 }
