@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.3.0] - 2018-06-11
+- Supported `:append`, `:prepend` and `:replace` directives (thanks to [@adc-mhaugen](https://github.com/adc-mhaugen))
+
 ## [1.2.0] - 2018-02-05
 - Option `onlyDirection` for generating a LTR or a RTL version only ([#27](../../issues/27)).
 
