@@ -25,7 +25,7 @@
     "lib"
   ],
   "dependencies": {
-    "rtlcss": "^2.2.1"
+    "rtlcss": "^2.3.0"
   },
   "devDependencies": {
     "ava": "^0.25.0",
