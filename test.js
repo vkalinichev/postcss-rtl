@@ -192,6 +192,22 @@ test('Value based ignore comments are honored', t => run(t,
   '[dir=rtl] .foo { margin-right: 12px; }'
 ))
 
+test('/*! rtl:ignore */ should consider as a valid directive', t => run(t,
+  '/*! rtl:ignore */ .test { margin-left:0; padding-left:0 }',
+  '.test { margin-left:0; padding-left:0 }'
+))
+
+test('/*! rtl:begin:ignore */ and /*! rtl:end:ignore */ should consider as a valid directive', t => run(t,
+  '/*! rtl:begin:ignore */' +
+  '.foo { padding-left: 0 }' +
+  '/*! rtl:end:ignore */' +
+  '.bar { direction: ltr }',
+
+  '.foo { padding-left: 0 }' +
+  '[dir=ltr] .bar { direction: ltr }' +
+  '[dir=rtl] .bar { direction: rtl }'
+))
+
 test('Should add direction to flippable keyframes-animations', t => run(t,
   '@keyframes bar { 100% { transform: rotate(360deg); } }',
   '@keyframes bar-ltr { 100% { transform: rotate(360deg); } }' +

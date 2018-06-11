@@ -185,7 +185,7 @@ To skip flipping specific declarations use some of supported directives:
 
 * `/* rtl:ignore */` - to ignore the following rule *or* the containing declaration
 * `/* rtl:begin:ignore */` and `/* rtl:end:ignore */` - to ignore rules within scope
-    
+
 Ignore one rule:
 ```css
 /* rtl:ignore */
@@ -211,6 +211,14 @@ Value-syntax to ignore a single CSS declaration:
 .foo {
     margin-left: 20px;
     padding-right: 20px /* rtl:ignore */;
+}
+```
+
+`/*!` notation will work too:
+```css
+/*! rtl:ignore */
+.foo {
+    padding-left: 0
 }
 ```
 
@@ -242,7 +250,7 @@ module.exports = {
             plugins: function () {
               return [ require( 'postcss-rtl' )( options ) ]
             }
-          }  
+          }
         }
       ]
     } ]
@@ -265,9 +273,9 @@ gulp.src( 'style.css' )
         return `${prefix} > ${selector}` // Make selectors like [dir=rtl] > .selector
     }
     ```
-    
+
 * `onlyDirection`: generate only one-direction version: `ltr` or `rtl`
-    
+
 * `prefixType`: Switches between adding attributes and classes. Optional: 
     * `attribute` (by default, recommended): `.foo` => `[dir=rtl] .foo`
     * `class` (useful for IE6): `.foo` => `.dir-rtl .foo`

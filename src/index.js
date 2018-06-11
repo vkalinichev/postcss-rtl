@@ -19,18 +19,20 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
 
     return (node) => {
       if (node.type === 'comment') {
-        switch (node.text) {
-          case 'rtl:ignore':
+        const text = node.text;
+
+        switch (true) {
+          case /^(!\s)?rtl:ignore$/.test(text):
             isIgnored = true
             continuousIgnore = continuousIgnore || false
             removeComments && node.remove()
             break
-          case 'rtl:begin:ignore':
+          case /^(!\s)?rtl:begin:ignore$/.test(text):
             isIgnored = true
             continuousIgnore = true
             removeComments && node.remove()
             break
-          case 'rtl:end:ignore':
+          case /^(!\s)?rtl:end:ignore$/.test(text):
             isIgnored = false
             continuousIgnore = false
             removeComments && node.remove()
