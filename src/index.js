@@ -88,9 +88,14 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
       ltrDecls.push(ltrifyDecl(decl, keyframes))
 
       // Create RTL declaration with replacement value and add.
-      rtlDecls.push(decl.clone({
+      let rtlClonedDecl = decl.clone({
         value: value
-      }))
+      });
+      rtlClonedDecl.raws.value = {
+        value: value,
+        raw: value
+      };
+      rtlDecls.push(rtlClonedDecl);
 
       return true
     }
