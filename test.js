@@ -4,7 +4,7 @@ import test from 'ava'
 import plugin from './src'
 
 const run = (t, input, output, opts = {}) =>
-  postcss([plugin(opts)]).process(input)
+  postcss([plugin(opts)]).process(input, {from: undefined})
     .then(result => {
       t.is(result.css, output)
       t.is(result.warnings().length, 0)
