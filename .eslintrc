@@ -1,23 +1,26 @@
 {
-    "env": {
-        "browser": true,
-        "node": true
-    },
-    "parser": "babel-eslint",
-    "parserOptions": {
-        "ecmaVersion": 6,
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "modules": true,
-            "experimentalObjectRestSpread": true
-        }
-    },
-    "extends": [ "eslint:recommended" ],
-    "rules": {
-        "quotes": [ "error", "single" ],
-        "no-console": [ "warn", { "allow": ["warn", "error"] } ],
-        "no-unused-vars": [ "warn" ],
-        "indent": [ "error", 2, { "SwitchCase": 1 } ],
-        "semi": [ "error", "never" ]
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true,
+      "experimentalObjectRestSpread": true
     }
+  },
+  "extends": "airbnb-base",
+  "rules": {
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "indent": ["error", 2, {"SwitchCase": 1}],
+    "no-console": ["warn", {"allow": ["warn", "error"]}],
+    "no-param-reassign": "off",
+    "no-unused-vars": ["warn"],
+    "object-curly-spacing": ["error", "never"],
+    "semi": ["error", "never"],
+    "quotes": ["error", "single"]
+  }
 }

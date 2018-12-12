@@ -1,11 +1,11 @@
 const rtlcss = require('rtlcss')
 
 const getProcessedKeyframeValue = (decl, keyframes = [], dir) => {
-  let value = decl.value
-  keyframes.forEach(keyframe => {
-    let nameRegex = new RegExp(`(^|\\s)${ keyframe }($|\\s)`)
+  let {value} = decl
+  keyframes.forEach((keyframe) => {
+    const nameRegex = new RegExp(`(^|\\s)${keyframe}($|\\s)`)
     if (!value.match(nameRegex)) return
-    value = value.replace(nameRegex, ` ${ keyframe }-${ dir } `)
+    value = value.replace(nameRegex, ` ${keyframe}-${dir} `)
   })
   return value
 }
@@ -38,5 +38,5 @@ const ltrifyDecl = (decl, keyframes) => {
 
 module.exports = {
   ltrifyDecl,
-  rtlifyDecl
+  rtlifyDecl,
 }

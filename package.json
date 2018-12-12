@@ -36,6 +36,8 @@
     "babel-register": "^6.26.0",
     "del": "^3.0.0",
     "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "gulp": "^4.0.0",
     "gulp-postcss": "^8.0.0",
     "gulp-sourcemaps": "^2.6.4",
@@ -45,11 +47,11 @@
   },
   "scripts": {
     "build": "babel src -d lib",
-    "prepare": "npm run build && npm test",
+    "lint": "eslint src",
+    "prepare": "npm run lint && npm run build && npm test",
     "start": "gulp",
-    "lint": " eslint src/*.js",
-    "test": "ava",
-    "test:watch": "ava --watch"
+    "test": "ava src/test.js",
+    "test:watch": "ava --watch src/test.js"
   },
   "engines": {
     "node": ">=0.12"

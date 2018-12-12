@@ -2,14 +2,15 @@ const postcss = require('postcss')
 
 const affectedProps = require('./affected-props')
 const {validateOptions} = require('./options')
-const {isKeyframeRule, isKeyframeAlreadyProcessed, isKeyframeSymmetric, rtlifyKeyframe} = require('./keyframes')
+const {
+  isKeyframeRule, isKeyframeAlreadyProcessed, isKeyframeSymmetric, rtlifyKeyframe,
+} = require('./keyframes')
 const {getDirRule, processSrcRule} = require('./rules')
 const {rtlifyDecl, ltrifyDecl} = require('./decls')
 const {isSelectorHasDir} = require('./selectors')
 
-module.exports = postcss.plugin('postcss-rtl', (options) => css => {
-
-  let keyframes = []
+module.exports = postcss.plugin('postcss-rtl', options => (css) => {
+  const keyframes = []
 
   options = validateOptions(options)
 
@@ -19,24 +20,25 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
 
     return (node) => {
       if (node.type === 'comment') {
-        const text = node.text
+        const {text} = node
 
         switch (true) {
           case /^(!\s)?rtl:ignore$/.test(text):
             isIgnored = true
             continuousIgnore = continuousIgnore || false
-            removeComments && node.remove()
+            if (removeComments) node.remove()
             break
           case /^(!\s)?rtl:begin:ignore$/.test(text):
             isIgnored = true
             continuousIgnore = true
-            removeComments && node.remove()
+            if (removeComments) node.remove()
             break
           case /^(!\s)?rtl:end:ignore$/.test(text):
             isIgnored = false
             continuousIgnore = false
-            removeComments && node.remove()
+            if (removeComments) node.remove()
             break
+          default:
         }
         return true
       }
@@ -52,8 +54,7 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
   const isRuleIgnored = handleIgnores(options.removeComments)
 
   // collect @keyframes
-  css.walk(rule => {
-
+  css.walk((rule) => {
     if (isKeyframeIgnored(rule)) return
     if (rule.type !== 'atrule') return
 
@@ -80,20 +81,22 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
     if (raw.match(valueIgnoreDirective)) return true
 
     // Extract directive values using RegExp.
-    const [prependValue, appendValue, replaceValue] = [valuePrependDirective, valueAppendDirective, valueReplacementDirective]
+    const values = [valuePrependDirective, valueAppendDirective, valueReplacementDirective]
       .map(regEx => (raw.match(regEx) || {})[1])
 
-    const addDecls = value => {
+    const [prependValue, appendValue, replaceValue] = values
+
+    const addDecls = (value) => {
       // Create LTR declaration.
       ltrDecls.push(ltrifyDecl(decl, keyframes))
 
       // Create RTL declaration with replacement value and add.
-      let rtlClonedDecl = decl.clone({
-        value: value
+      const rtlClonedDecl = decl.clone({
+        value,
       })
       rtlClonedDecl.raws.value = {
-        value: value,
-        raw: value
+        value,
+        raw: value,
       }
       rtlDecls.push(rtlClonedDecl)
 
@@ -117,10 +120,10 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
 
     return false
   }// Simple rules (includes rules inside @media-queries)
-  css.walk(node => {
-    let ltrDecls = []
-    let rtlDecls = []
-    let dirDecls = []
+  css.walk((node) => {
+    const ltrDecls = []
+    const rtlDecls = []
+    const dirDecls = []
 
     if (isRuleIgnored(node)) return
 
@@ -132,9 +135,9 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
     if (isSelectorHasDir(rule.selector, options)) return
     if (isKeyframeRule(rule.parent)) return
 
-    rule.walkDecls( decl => {
+    rule.walkDecls((decl) => {
       // Is there a  value directive?
-      if ( handleValueDirectives( decl, ltrDecls, rtlDecls ) )return
+      if (handleValueDirectives(decl, ltrDecls, rtlDecls)) return
 
       const rtl = rtlifyDecl(decl, keyframes)
 
@@ -155,8 +158,8 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
         getDirRule(rule, 'rtl', options).append(rtlDecls)
       }
 
-      let ltrDirRule = getDirRule(rule, 'ltr', options)
-      ltrDecls.forEach(_decl => {
+      const ltrDirRule = getDirRule(rule, 'ltr', options)
+      ltrDecls.forEach((_decl) => {
         _decl.cleanRaws(_decl.root() === ltrDirRule.root())
         rule.removeChild(_decl)
         if (!options.onlyDirection || options.onlyDirection === 'ltr') {

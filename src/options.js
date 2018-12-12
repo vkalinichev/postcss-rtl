@@ -1,13 +1,15 @@
 const defaultOptions = {
   addPrefixToSelector: false, // customized function for joining prefix and selector
-  prefixType: 'attribute',    // type of dir-prefix: attribute [dir] or class .dir,
-  onlyDirection: false,       // "ltr", "rtl": compile only one-direction version
-  removeComments: true        // remove comments after process them
+  prefixType: 'attribute', // type of dir-prefix: attribute [dir] or class .dir,
+  onlyDirection: false, // "ltr", "rtl": compile only one-direction version
+  removeComments: true, // remove comments after process them
 }
 
 const validateOptions = (options = {}) => {
-  const {addPrefixToSelector, prefixType, onlyDirection, removeComments} = options
-  let fixedOptions = {}
+  const {
+    addPrefixToSelector, prefixType, onlyDirection, removeComments,
+  } = options
+  const fixedOptions = {}
 
   if (addPrefixToSelector && typeof addPrefixToSelector !== 'function') {
     fixedOptions.addPrefixToSelector = defaultOptions.addPrefixToSelector
@@ -37,10 +39,9 @@ const validateOptions = (options = {}) => {
   return Object.assign({},
     defaultOptions,
     options,
-    fixedOptions
-  )
+    fixedOptions)
 }
 
 module.exports = {
-  validateOptions
+  validateOptions,
 }

@@ -1,18 +1,18 @@
 module.exports = {
-  'attribute': {
+  attribute: {
     prefixes: {
       ltr: '[dir=ltr]',
       rtl: '[dir=rtl]',
-      dir: '[dir]'
+      dir: '[dir]',
     },
-    regex: /\[dir(=(\w+|"\w+"))?\]/
+    regex: /\[dir(=(\w+|"\w+"))?\]/,
   },
-  'class': {
+  class: {
     prefixes: {
       ltr: '.dir-ltr',
       rtl: '.dir-rtl',
-      dir: '.dir'
+      dir: '.dir',
     },
-    regex: /\.dir(-\w+)?/
-  }
+    regex: /\.dir(-\w+)?/,
+  },
 }
