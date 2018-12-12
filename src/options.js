@@ -6,12 +6,12 @@ const defaultOptions = {
 }
 
 const validateOptions = (options = {}) => {
-  const {addPrefixToSelector, prefixType, onlyDirection} = options
+  const {addPrefixToSelector, prefixType, onlyDirection, removeComments} = options
   let fixedOptions = {}
 
   if (addPrefixToSelector && typeof addPrefixToSelector !== 'function') {
     fixedOptions.addPrefixToSelector = defaultOptions.addPrefixToSelector
-    console.warn('Incorrect **addPrefixToSelector option. Must be a function')
+    console.warn('Incorrect addPrefixToSelector option. Must be a function')
   }
 
   if (onlyDirection && typeof onlyDirection !== 'string') {
@@ -22,6 +22,16 @@ const validateOptions = (options = {}) => {
   if (prefixType && ['attribute', 'class'].indexOf(prefixType) < 0) {
     fixedOptions.prefixType = defaultOptions.prefixType
     console.warn('Incorrect prefixType option. Allowed values: attribute, class')
+  }
+
+  if (prefixType && ['attribute', 'class'].indexOf(prefixType) < 0) {
+    fixedOptions.prefixType = defaultOptions.prefixType
+    console.warn('Incorrect prefixType option. Allowed values: attribute, class')
+  }
+
+  if (removeComments && typeof removeComments !== 'boolean') {
+    fixedOptions.removeComments = defaultOptions.removeComments
+    console.warn('Incorrect removeComments option. Must be a boolean')
   }
 
   return Object.assign({},
