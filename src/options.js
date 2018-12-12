@@ -1,7 +1,8 @@
 const defaultOptions = {
   addPrefixToSelector: false, // customized function for joining prefix and selector
   prefixType: 'attribute',    // type of dir-prefix: attribute [dir] or class .dir,
-  onlyDirection: false        // "ltr", "rtl": compile only one-direction version
+  onlyDirection: false,       // "ltr", "rtl": compile only one-direction version
+  removeComments: true        // remove comments after process them
 }
 
 const validateOptions = (options = {}) => {

@@ -266,3 +266,31 @@ test ( 'Value append directives are honored', t => run( t,
   '.foo { font-weight: bold; transform: rotate(45deg)/* rtl:append: scaleX(-1) */; }',
   '.foo { font-weight: bold; }[dir=ltr] .foo { transform: rotate(45deg)/* rtl:append: scaleX(-1) */; }[dir=rtl] .foo { transform: rotate(45deg) scaleX(-1); }'
 ) )
+
+test('Value based ignore important comments are honored', t => run(t,
+  '.foo { margin-left: 12px; padding-left: 12px /*! rtl:ignore */; }',
+  '.foo { padding-left: 12px /*! rtl:ignore */; }' +
+  '[dir=ltr] .foo { margin-left: 12px; }' +
+  '[dir=rtl] .foo { margin-right: 12px; }'
+))
+
+test ( 'Value replacement directives with important comments are honored', t => run( t,
+  '.foo { font-weight: bold; flex-direction: row/*! rtl:row-reverse */; }',
+  '.foo { font-weight: bold; }[dir=ltr] .foo { flex-direction: row/*! rtl:row-reverse */; }[dir=rtl] .foo { flex-direction: row-reverse; }'
+) )
+
+test ( 'Value prepend directives with important comments are honored', t => run( t,
+  '.foo { font-weight: bold; font-family: "Droid Sans", "Helvetica Neue", Arial, sans-serif/*!rtl:prepend:"Droid Arabic Kufi",*/; }',
+  '.foo { font-weight: bold; }[dir=ltr] .foo { font-family: "Droid Sans", "Helvetica Neue", Arial, sans-serif/*!rtl:prepend:"Droid Arabic Kufi",*/; }[dir=rtl] .foo { font-family: "Droid Arabic Kufi", "Droid Sans", "Helvetica Neue", Arial, sans-serif; }'
+) )
+
+test ( 'Value append directives with important comments are honored', t => run( t,
+  '.foo { font-weight: bold; transform: rotate(45deg)/*! rtl:append: scaleX(-1) */; }',
+  '.foo { font-weight: bold; }[dir=ltr] .foo { transform: rotate(45deg)/*! rtl:append: scaleX(-1) */; }[dir=rtl] .foo { transform: rotate(45deg) scaleX(-1); }'
+) )
+
+test('Should keep comments', t => run(t,
+  '/* rtl:ignore */ a { text-align: left }',
+  '/* rtl:ignore */ a { text-align: left }',
+  { removeComments: false }
+))

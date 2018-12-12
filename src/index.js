@@ -19,7 +19,7 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
 
     return (node) => {
       if (node.type === 'comment') {
-        const text = node.text;
+        const text = node.text
 
         switch (true) {
           case /^(!\s)?rtl:ignore$/.test(text):
@@ -48,8 +48,8 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
     }
   }
 
-    const isKeyframeIgnored = handleIgnores()
-    const isRuleIgnored = handleIgnores( true )
+  const isKeyframeIgnored = handleIgnores()
+  const isRuleIgnored = handleIgnores(options.removeComments)
 
   // collect @keyframes
   css.walk(rule => {
@@ -65,10 +65,10 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
     rtlifyKeyframe(rule, options)
   })
 
-  const valueIgnoreDirective = /\/\* *rtl *: *ignore *\*\/$/
-  const valuePrependDirective = /\/\* *rtl *: *prepend *: *([\S| ]*?) *\*\/$/
-  const valueAppendDirective = /\/\* *rtl *: *append *: *([\S| ]*?) *\*\/$/
-  const valueReplacementDirective = /\/\* *rtl *: *([\S| ]*?) *\*\/$/
+  const valueIgnoreDirective = /\/\*!? *rtl *: *ignore *\*\/$/
+  const valuePrependDirective = /\/\*!? *rtl *: *prepend *: *([\S| ]*?) *\*\/$/
+  const valueAppendDirective = /\/\*!? *rtl *: *append *: *([\S| ]*?) *\*\/$/
+  const valueReplacementDirective = /\/\*!? *rtl *: *([\S| ]*?) *\*\/$/
 
   const handleValueDirectives = (decl, ltrDecls, rtlDecls) => {
     const {raw} = (decl.raws.value || {})
@@ -90,12 +90,12 @@ module.exports = postcss.plugin('postcss-rtl', (options) => css => {
       // Create RTL declaration with replacement value and add.
       let rtlClonedDecl = decl.clone({
         value: value
-      });
+      })
       rtlClonedDecl.raws.value = {
         value: value,
         raw: value
-      };
-      rtlDecls.push(rtlClonedDecl);
+      }
+      rtlDecls.push(rtlClonedDecl)
 
       return true
     }
