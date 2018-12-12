@@ -279,6 +279,8 @@ gulp.src( 'style.css' )
 * `prefixType`: Switches between adding attributes and classes. Optional: 
     * `attribute` (by default, recommended): `.foo` => `[dir=rtl] .foo`
     * `class` (useful for IE6): `.foo` => `.dir-rtl .foo`
+    
+* `removeComments` (default: `true`): remove `rtl:*` comments after process them
 
 ## Thanks
 Great thanks to projects:
