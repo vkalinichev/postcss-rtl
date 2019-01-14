@@ -136,7 +136,7 @@ module.exports = postcss.plugin('postcss-rtl', options => (css) => {
     if (isKeyframeRule(rule.parent)) return
 
     rule.walkDecls((decl) => {
-      // Is there a  value directive?
+      // Is there a value directive?
       if (handleValueDirectives(decl, ltrDecls, rtlDecls)) return
 
       const rtl = rtlifyDecl(decl, keyframes)
