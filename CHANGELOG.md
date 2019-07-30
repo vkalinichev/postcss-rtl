@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.4.0] - 2018-06-11
+## [1.4.0] - 2019-07-30
 - Added `fromRTL` option (thanks to [@HosseinAgha](https://github.com/HosseinAgha))
 
 ## [1.3.0] - 2018-06-11
