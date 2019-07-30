@@ -280,7 +280,9 @@ gulp.src( 'style.css' )
     * `attribute` (by default, recommended): `.foo` => `[dir=rtl] .foo`
     * `class` (useful for IE6): `.foo` => `.dir-rtl .foo`
     
-* `removeComments` (default: `true`): remove `rtl:*` comments after process them
+* `removeComments` (default: `true`): remove `rtl:*` comments after process them   
+
+* `fromRTL`: assume all styles are written in RTL direction and generate corresponding LTR styles for them  
 
 ## Thanks
 Great thanks to projects:

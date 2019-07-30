@@ -2,12 +2,14 @@ const defaultOptions = {
   addPrefixToSelector: false, // customized function for joining prefix and selector
   prefixType: 'attribute', // type of dir-prefix: attribute [dir] or class .dir,
   onlyDirection: false, // "ltr", "rtl": compile only one-direction version
+  fromRTL: false, // assume styles are written in rtl initially
   removeComments: true, // remove comments after process them
 }
 
 const validateOptions = (options = {}) => {
   const {
-    addPrefixToSelector, prefixType, onlyDirection, removeComments,
+    addPrefixToSelector, prefixType, onlyDirection,
+    removeComments, fromRTL,
   } = options
   const fixedOptions = {}
 
@@ -34,6 +36,11 @@ const validateOptions = (options = {}) => {
   if (removeComments && typeof removeComments !== 'boolean') {
     fixedOptions.removeComments = defaultOptions.removeComments
     console.warn('Incorrect removeComments option. Must be a boolean')
+  }
+
+  if (fromRTL && typeof fromRTL !== 'boolean') {
+    fixedOptions.removeComments = defaultOptions.removeComments
+    console.warn('Incorrect fromRTL option. Must be a boolean')
   }
 
   return Object.assign({},

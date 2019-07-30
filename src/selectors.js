@@ -8,6 +8,18 @@ const isRootSelector = (selector = '') => !!selector.match(/:root/)
 
 const addDirToSelectors = (selectors = '', dir, options = {}) => {
   const {addPrefixToSelector, prefixType} = options
+  // we swap direction prefixes if we are converting rtl styles to ltr
+  if (options.fromRTL) {
+    switch (dir) {
+      case 'rtl':
+        dir = 'ltr'
+        break
+      case 'ltr':
+        dir = 'rtl'
+        break
+      default:
+    }
+  }
   const prefix = prefixes[prefixType].prefixes[dir]
   if (!prefix) return selectors
 
