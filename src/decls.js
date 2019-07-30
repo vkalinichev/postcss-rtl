@@ -1,42 +1,42 @@
-const rtlcss = require('rtlcss')
+const rtlcss = require('rtlcss');
 
 const getProcessedKeyframeValue = (decl, keyframes = [], dir) => {
-  let {value} = decl
+  let {value} = decl;
   keyframes.forEach((keyframe) => {
-    const nameRegex = new RegExp(`(^|\\s)${keyframe}($|\\s)`)
-    if (!value.match(nameRegex)) return
-    value = value.replace(nameRegex, ` ${keyframe}-${dir} `)
-  })
-  return value
-}
+    const nameRegex = new RegExp(`(^|\\s)${keyframe}($|\\s)`);
+    if (!value.match(nameRegex)) return;
+    value = value.replace(nameRegex, ` ${keyframe}-${dir} `);
+  });
+  return value;
+};
 
 const rtlifyDecl = (decl, keyframes) => {
-  let {prop, value} = decl
+  let {prop, value} = decl;
 
   if (decl.prop.match(/animation/)) {
-    value = getProcessedKeyframeValue(decl, keyframes, 'rtl')
+    value = getProcessedKeyframeValue(decl, keyframes, 'rtl');
   } else {
-    const rtlResult = rtlcss.process(decl, null, null)
+    const rtlResult = rtlcss.process(decl, null, null);
 
     if (rtlResult === decl.toString()) {
-      return null
+      return null;
     }
 
-    [, prop, value] = rtlResult.match(/([^:]*):\s*(.*)/) || []
+    [, prop, value] = rtlResult.match(/([^:]*):\s*(.*)/) || [];
 
-    value = value.replace(/\s*!important/, '')
+    value = value.replace(/\s*!important/, '');
   }
-  return {prop, value}
-}
+  return {prop, value};
+};
 
 const ltrifyDecl = (decl, keyframes) => {
   if (decl.prop.match(/animation/)) {
-    decl.value = getProcessedKeyframeValue(decl, keyframes, 'ltr')
+    decl.value = getProcessedKeyframeValue(decl, keyframes, 'ltr');
   }
-  return decl
-}
+  return decl;
+};
 
 module.exports = {
   ltrifyDecl,
   rtlifyDecl,
-}
+};

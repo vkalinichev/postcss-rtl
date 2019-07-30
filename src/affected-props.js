@@ -46,4 +46,4 @@ module.exports = [
   'text-align',
   'text-align-last',
   'text-shadow',
-]
+];

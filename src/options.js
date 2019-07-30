@@ -4,51 +4,53 @@ const defaultOptions = {
   onlyDirection: false, // "ltr", "rtl": compile only one-direction version
   fromRTL: false, // assume styles are written in rtl initially
   removeComments: true, // remove comments after process them
-}
+};
 
+/* eslint-disable no-console */
 const validateOptions = (options = {}) => {
   const {
     addPrefixToSelector, prefixType, onlyDirection,
     removeComments, fromRTL,
-  } = options
-  const fixedOptions = {}
+  } = options;
+  const fixedOptions = {};
 
   if (addPrefixToSelector && typeof addPrefixToSelector !== 'function') {
-    fixedOptions.addPrefixToSelector = defaultOptions.addPrefixToSelector
-    console.warn('Incorrect addPrefixToSelector option. Must be a function')
+    fixedOptions.addPrefixToSelector = defaultOptions.addPrefixToSelector;
+    console.warn('Incorrect addPrefixToSelector option. Must be a function');
   }
 
   if (onlyDirection && typeof onlyDirection !== 'string') {
-    fixedOptions.onlyDirection = defaultOptions.onlyDirection
-    console.warn('Incorrect onlyDirection option. Allowed values: ltr, rtl')
+    fixedOptions.onlyDirection = defaultOptions.onlyDirection;
+    console.warn('Incorrect onlyDirection option. Allowed values: ltr, rtl');
   }
 
   if (prefixType && ['attribute', 'class'].indexOf(prefixType) < 0) {
-    fixedOptions.prefixType = defaultOptions.prefixType
-    console.warn('Incorrect prefixType option. Allowed values: attribute, class')
+    fixedOptions.prefixType = defaultOptions.prefixType;
+    console.warn('Incorrect prefixType option. Allowed values: attribute, class');
   }
 
   if (prefixType && ['attribute', 'class'].indexOf(prefixType) < 0) {
-    fixedOptions.prefixType = defaultOptions.prefixType
-    console.warn('Incorrect prefixType option. Allowed values: attribute, class')
+    fixedOptions.prefixType = defaultOptions.prefixType;
+    console.warn('Incorrect prefixType option. Allowed values: attribute, class');
   }
 
   if (removeComments && typeof removeComments !== 'boolean') {
-    fixedOptions.removeComments = defaultOptions.removeComments
-    console.warn('Incorrect removeComments option. Must be a boolean')
+    fixedOptions.removeComments = defaultOptions.removeComments;
+    console.warn('Incorrect removeComments option. Must be a boolean');
   }
 
   if (fromRTL && typeof fromRTL !== 'boolean') {
-    fixedOptions.removeComments = defaultOptions.removeComments
-    console.warn('Incorrect fromRTL option. Must be a boolean')
+    fixedOptions.removeComments = defaultOptions.removeComments;
+    console.warn('Incorrect fromRTL option. Must be a boolean');
   }
 
   return Object.assign({},
     defaultOptions,
     options,
-    fixedOptions)
-}
+    fixedOptions);
+};
+/* eslint-enable no-console */
 
 module.exports = {
   validateOptions,
-}
+};

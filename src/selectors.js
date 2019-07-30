@@ -1,50 +1,50 @@
-const prefixes = require('./prefixes-config')
+const prefixes = require('./prefixes-config');
 
-const isSelectorHasDir = (selector = '', {prefixType}) => !!selector.match(prefixes[prefixType].regex)
+const isSelectorHasDir = (selector = '', {prefixType}) => !!selector.match(prefixes[prefixType].regex);
 
-const isHtmlSelector = (selector = '') => !!selector.match(/^html/)
+const isHtmlSelector = (selector = '') => !!selector.match(/^html/);
 
-const isRootSelector = (selector = '') => !!selector.match(/:root/)
+const isRootSelector = (selector = '') => !!selector.match(/:root/);
 
 const addDirToSelectors = (selectors = '', dir, options = {}) => {
-  const {addPrefixToSelector, prefixType} = options
+  const {addPrefixToSelector, prefixType} = options;
   // we swap direction prefixes if we are converting rtl styles to ltr
   if (options.fromRTL) {
     switch (dir) {
       case 'rtl':
-        dir = 'ltr'
-        break
+        dir = 'ltr';
+        break;
       case 'ltr':
-        dir = 'rtl'
-        break
+        dir = 'rtl';
+        break;
       default:
     }
   }
-  const prefix = prefixes[prefixType].prefixes[dir]
-  if (!prefix) return selectors
+  const prefix = prefixes[prefixType].prefixes[dir];
+  if (!prefix) return selectors;
 
   return selectors
     .split(/\s*,\s*/)
     .map((selector) => {
       if (addPrefixToSelector) {
-        selector = addPrefixToSelector(selector, prefix)
+        selector = addPrefixToSelector(selector, prefix);
       } else if (isHtmlSelector(selector)) {
         // only replace `html` at the beginning of selector
-        selector = selector.replace(/^html/ig, `html${prefix}`)
+        selector = selector.replace(/^html/ig, `html${prefix}`);
       } else if (isRootSelector(selector)) {
-        selector = selector.replace(/:root/ig, `${prefix}:root`)
+        selector = selector.replace(/:root/ig, `${prefix}:root`);
       } else {
         // add prefix without html for least change of the priority level
-        selector = `${prefix} ${selector}`
+        selector = `${prefix} ${selector}`;
       }
-      return selector
+      return selector;
     })
-    .join(', ')
-}
+    .join(', ');
+};
 
 module.exports = {
   isSelectorHasDir,
   isHtmlSelector,
   isRootSelector,
   addDirToSelectors,
-}
+};

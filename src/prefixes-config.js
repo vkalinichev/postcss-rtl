@@ -15,4 +15,4 @@ module.exports = {
     },
     regex: /\.dir(-\w+)?/,
   },
-}
+};
