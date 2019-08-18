@@ -273,12 +273,17 @@ gulp.src( 'style.css' )
         return `${prefix} > ${selector}` // Make selectors like [dir=rtl] > .selector
     }
     ```
+  **note:** the returned string _must_ include `prefix` to avoid an infinite recursion
 
 * `onlyDirection`: generate only one-direction version: `ltr` or `rtl`
 
 * `prefixType`: Switches between adding attributes and classes. Optional: 
     * `attribute` (by default, recommended): `.foo` => `[dir=rtl] .foo`
     * `class` (useful for IE6): `.foo` => `.dir-rtl .foo`
+    
+* `prefix`: Uses a custom string, instead of 'dir', for the added attribute and class selectors
+    * e.g. `'data-my-custom-dir'` (for attribute prefixType): `.foo` => `[data-my-custom-dir=rtl] .foo`
+    * e.g. `'my-custom-dir'` (for class prefixType): `.foo` => `.my-custom-dir-rtl .foo`
     
 * `removeComments` (default: `true`): remove `rtl:*` comments after process them   
 

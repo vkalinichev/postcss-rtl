@@ -1,6 +1,7 @@
 const defaultOptions = {
   addPrefixToSelector: false, // customized function for joining prefix and selector
   prefixType: 'attribute', // type of dir-prefix: attribute [dir] or class .dir,
+  prefix: 'dir', // string to use as prefix (e.g. dir, my-special-dir)
   onlyDirection: false, // "ltr", "rtl": compile only one-direction version
   fromRTL: false, // assume styles are written in rtl initially
   removeComments: true, // remove comments after process them
@@ -9,8 +10,8 @@ const defaultOptions = {
 /* eslint-disable no-console */
 const validateOptions = (options = {}) => {
   const {
-    addPrefixToSelector, prefixType, onlyDirection,
-    removeComments, fromRTL,
+    addPrefixToSelector, prefixType, prefix,
+    onlyDirection, removeComments, fromRTL,
   } = options;
   const fixedOptions = {};
 
@@ -32,6 +33,10 @@ const validateOptions = (options = {}) => {
   if (prefixType && ['attribute', 'class'].indexOf(prefixType) < 0) {
     fixedOptions.prefixType = defaultOptions.prefixType;
     console.warn('Incorrect prefixType option. Allowed values: attribute, class');
+  }
+
+  if (typeof prefix === 'string' && prefix.length < 1) {
+    console.warn('Incorrect prefix: must not be empty');
   }
 
   if (removeComments && typeof removeComments !== 'boolean') {

@@ -1,6 +1,6 @@
-const prefixes = require('./prefixes-config');
+const generatePrefixes = require('./prefixes-config');
 
-const isSelectorHasDir = (selector = '', {prefixType}) => !!selector.match(prefixes[prefixType].regex);
+const isSelectorHasDir = (selector = '', options) => !!selector.match(generatePrefixes(options)[options.prefixType].regex);
 
 const isHtmlSelector = (selector = '') => !!selector.match(/^html/);
 
@@ -20,7 +20,7 @@ const addDirToSelectors = (selectors = '', dir, options = {}) => {
       default:
     }
   }
-  const prefix = prefixes[prefixType].prefixes[dir];
+  const prefix = generatePrefixes(options)[prefixType].prefixes[dir];
   if (!prefix) return selectors;
 
   return selectors
