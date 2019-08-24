@@ -1,18 +1,18 @@
-module.exports = {
+module.exports = ({prefix}) => ({
   attribute: {
     prefixes: {
-      ltr: '[dir=ltr]',
-      rtl: '[dir=rtl]',
-      dir: '[dir]',
+      ltr: `[${prefix}=ltr]`,
+      rtl: `[${prefix}=rtl]`,
+      dir: `[${prefix}]`,
     },
-    regex: /\[dir(=(\w+|"\w+"))?\]/,
+    regex: new RegExp(`\\[${prefix}(=(\\w+|"\\w+"))?\\]`),
   },
   class: {
     prefixes: {
-      ltr: '.dir-ltr',
-      rtl: '.dir-rtl',
-      dir: '.dir',
+      ltr: `.${prefix}-ltr`,
+      rtl: `.${prefix}-rtl`,
+      dir: `.${prefix}`,
     },
-    regex: /\.dir(-\w+)?/,
+    regex: new RegExp(`\\.${prefix}(-\\w+)?`),
   },
-};
+});

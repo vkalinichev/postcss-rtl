@@ -252,3 +252,16 @@ test('Should keep comments', t => run(t,
   '/* rtl:ignore */ a { text-align: left }',
   '/* rtl:ignore */ a { text-align: left }',
   {removeComments: false}));
+
+test('Should respect custom prefix (attribute)', t => run(t,
+  'a { text-align: left }',
+  '[custom-dir-prefix=ltr] a { text-align: left }'
+  + '[custom-dir-prefix=rtl] a { text-align: right }',
+  {prefix: 'custom-dir-prefix'}));
+
+test('Should respect custom prefix (class)', t => run(t,
+  'a { text-align: left }',
+  '.custom-dir-prefix-ltr a { text-align: left }'
+  + '.custom-dir-prefix-rtl a { text-align: right }',
+  {prefix: 'custom-dir-prefix', prefixType: 'class'}));
+
