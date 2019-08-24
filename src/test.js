@@ -264,3 +264,9 @@ test('Should respect custom prefix (class)', t => run(t,
   '.custom-dir-prefix-ltr a { text-align: left }'
   + '.custom-dir-prefix-rtl a { text-align: right }',
   {prefix: 'custom-dir-prefix', prefixType: 'class'}));
+
+test('Should not swap "left" and "right" subparts of selectors', t => run(t,
+  '.arrowLeft { margin-right: -3px }',
+
+  '[dir=ltr] .arrowLeft { margin-right: -3px }'
+  + '[dir=rtl] .arrowLeft { margin-left: -3px }'));
