@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.5.0] - 2019-08-24
+- Added `prefix` option (thanks to [@mike-shtil](https://github.com/mike-shtil))
+
 ## [1.4.0] - 2019-07-30
 - Added `fromRTL` option (thanks to [@HosseinAgha](https://github.com/HosseinAgha))
 

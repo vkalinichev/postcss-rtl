@@ -264,4 +264,3 @@ test('Should respect custom prefix (class)', t => run(t,
   '.custom-dir-prefix-ltr a { text-align: left }'
   + '.custom-dir-prefix-rtl a { text-align: right }',
   {prefix: 'custom-dir-prefix', prefixType: 'class'}));
-

@@ -93,7 +93,7 @@ LTR+RTL output:
 ```
 
 ### Animations
-In case of flippable keyframes-animations it will be splitted to two
+Flippable keyframes-animations will be splitted to two
 direction-based rules with `-ltr` or `-rtl` suffixes
 
 LTR input:
