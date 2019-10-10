@@ -16,12 +16,21 @@ const rtlifyDecl = (decl, keyframes) => {
   if (decl.prop.match(/animation/)) {
     value = getProcessedKeyframeValue(decl, keyframes, 'rtl');
   } else {
-    const rtlResult = rtlcss.process(decl, null, null);
+    let rtlResult = rtlcss.process(decl, null, null);
 
     if (rtlResult === decl.toString()) {
       return null;
     }
-
+    rtlResult = rtlResult.split("\n").join(""); /* css property value in multiple line then breaks in rtl
+    .test{
+       background: linear-gradient(0deg,rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0.9) 100%) 0% 0%,linear-gradient(90deg,rgba(36, 13, 13, 0.9) 0%,
+    rgba(255, 255, 255, 0.6) 100%) 100% 0%,linear-gradient(180deg,rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.3) 100%) 100% 100%,linear-gradient(360deg,rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 100%) 0% 100%;
+    }
+    regex ignore multiple line values
+    */
     [, prop, value] = rtlResult.match(/([^:]*):\s*(.*)/) || [];
 
     value = value.replace(/\s*!important/, '');
