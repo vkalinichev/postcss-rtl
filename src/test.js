@@ -2,10 +2,13 @@ import postcss from 'postcss';
 import test from 'ava';
 import plugin from './index';
 
+const normalize = cssString => cssString
+  .replace(/} /g, '}'); /* fix extra space added by `postcss-import` */
+
 const run = (t, input, output, opts = {}) => postcss([plugin(opts)])
   .process(input, {from: undefined})
   .then((result) => {
-    t.is(result.css, output);
+    t.is(normalize(result.css), normalize(output));
     t.is(result.warnings().length, 0);
   });
 
