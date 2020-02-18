@@ -280,7 +280,14 @@ test('Should respect multiline values', t => run(t,
   `[dir=ltr] .multiline {
     background: rgba(0, 0, 0, 0, .5),
       linear-gradient(to right, transparent, #000);
-  }[dir=rtl] .multiline {
+  }`
++ `[dir=rtl] .multiline {
     background: rgba(0, 0, 0, 0, .5),
       linear-gradient(to left, transparent, #000);
   }`));
+
+test('rtl:as: directive', t => run(t,
+  ':root { --padding /* rtl:as:padding */: 1px 2px 3px 4px }',
+
+  '[dir=ltr]:root { --padding /* rtl:as:padding */: 1px 2px 3px 4px }'
++ '[dir=rtl]:root { --padding /* rtl:as:padding */: 1px 4px 3px 2px }'));

@@ -21,7 +21,8 @@ const rtlifyDecl = (decl, keyframes) => {
     if (rtlResult === decl.toString()) {
       return null;
     }
-    [, prop, value] = rtlResult.match(/([^:]*):\s*([\s\S]*)/) || [];
+    const cleanRtlResult = rtlResult.replace(/([^:]*)\s*\/\*.*?\*\/\s*/, '$1');
+    [, prop, value] = cleanRtlResult.match(/([^:]*):\s*([\s\S]*)/) || [];
 
     value = value.replace(/\s*!important/, '');
   }

@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.6.0] - 2020-02-19
+- Supported `:as` directive
+
 ## [1.5.0] - 2019-08-24
 - Added `prefix` option (thanks to [@mike-shtil](https://github.com/mike-shtil))
 
@@ -19,10 +22,10 @@
 - Supported `rtl:ignore` directive (thanks to [@joscha](https://github.com/joscha))
 
 ## [0.5.0] - 2016-12-13
-- Added `prefixType` option 
+- Added `prefixType` option
 
 ## [0.4.1] - 2016-12-12
-- Improved list of potential-affected properties (priority troubles workaround) 
+- Improved list of potential-affected properties (priority troubles workaround)
 
 ## [0.4.0] - 2016-12-03
 - Added `addPrefixToSelector` option (thanks to [@crossjs](https://github.com/crossjs))

@@ -119,7 +119,26 @@ module.exports = postcss.plugin('postcss-rtl', options => (css) => {
     }
 
     return false;
-  };// Simple rules (includes rules inside @media-queries)
+  };
+
+  const handlePropAsDirective = (decl, ltrDecls, rtlDecls) => {
+    const between = (decl.raws.between || {});
+    if (!between) return false;
+
+    const propAsDirective = /\/\*!? *rtl *: *as *: *([\S| ]*?) *\*\//;
+    const prop = (between.match(propAsDirective) || {})[1];
+
+    if (prop) {
+      ltrDecls.push(ltrifyDecl(decl, keyframes));
+      const {value} = rtlifyDecl(decl.clone({prop}), keyframes);
+      const clone = decl.clone({value});
+      rtlDecls.push(clone);
+      return true;
+    }
+    return false;
+  };
+
+  // Simple rules (includes rules inside @media-queries)
   css.walk((node) => {
     const ltrDecls = [];
     const rtlDecls = [];
@@ -138,6 +157,7 @@ module.exports = postcss.plugin('postcss-rtl', options => (css) => {
     rule.walkDecls((decl) => {
       // Is there a value directive?
       if (handleValueDirectives(decl, ltrDecls, rtlDecls)) return;
+      if (handlePropAsDirective(decl, ltrDecls, rtlDecls)) return;
 
       const rtl = rtlifyDecl(decl, keyframes);
 
