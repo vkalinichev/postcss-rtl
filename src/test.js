@@ -1,11 +1,15 @@
 import postcss from 'postcss';
+import postcssImport from 'postcss-import';
 import test from 'ava';
 import plugin from './index';
 
 const normalize = cssString => cssString
   .replace(/} /g, '}'); /* fix extra space added by `postcss-import` */
 
-const run = (t, input, output, opts = {}) => postcss([plugin(opts)])
+const run = (t, input, output, opts = {}) => postcss([
+  postcssImport,
+  plugin(opts),
+])
   .process(input, {from: undefined})
   .then((result) => {
     t.is(normalize(result.css), normalize(output));
@@ -294,3 +298,10 @@ test('rtl:as: directive', t => run(t,
 
   '[dir=ltr]:root { --padding /* rtl:as:padding */: 1px 2px 3px 4px }'
 + '[dir=rtl]:root { --padding /* rtl:as:padding */: 1px 4px 3px 2px }'));
+
+test('import', t => run(t,
+  '/* rtl:begin:ignore */'
++ `@import "${__dirname}/test-import.css";`
++ '/* rtl:end:ignore */',
+
+  '.test-import { padding-left: 1rem }'));
