@@ -12,6 +12,15 @@ const {isSelectorHasDir} = require('./selectors');
 module.exports = postcss.plugin('postcss-rtl', options => (css) => {
   const keyframes = [];
 
+  const whitelist = new Set(options.whitelist);
+  const blacklist = new Set(options.blacklist);
+
+  const isAllowedProp = (prop) => {
+    const isAllowedByWhitelist = !options.whitelist || whitelist.has(prop);
+    const isAllowedByBlacklist = !options.blacklist || !blacklist.has(prop);
+    return isAllowedByWhitelist && isAllowedByBlacklist;
+  };
+
   options = validateOptions(options);
 
   const handleIgnores = (removeComments = false) => {
@@ -158,6 +167,7 @@ module.exports = postcss.plugin('postcss-rtl', options => (css) => {
       // Is there a value directive?
       if (handleValueDirectives(decl, ltrDecls, rtlDecls)) return;
       if (handlePropAsDirective(decl, ltrDecls, rtlDecls)) return;
+      if (!isAllowedProp(decl.prop)) return;
 
       const rtl = rtlifyDecl(decl, keyframes);
 

@@ -299,9 +299,25 @@ test('rtl:as: directive', t => run(t,
   '[dir=ltr]:root { --padding /* rtl:as:padding */: 1px 2px 3px 4px }'
 + '[dir=rtl]:root { --padding /* rtl:as:padding */: 1px 4px 3px 2px }'));
 
-test('import', t => run(t,
+test('should ignore ignored @import', t => run(t,
   '/* rtl:begin:ignore */'
 + `@import "${__dirname}/test-import.css";`
 + '/* rtl:end:ignore */',
 
   '.test-import { padding-left: 1rem }'));
+
+test('should ignore blacklist properties', t => run(t,
+  '.test {padding-left: 1rem;padding: 1rem 2rem 3rem 4rem}',
+
+  '.test {padding: 1rem 2rem 3rem 4rem}'
+  + '[dir=ltr] .test {padding-left: 1rem}'
+  + '[dir=rtl] .test {padding-right: 1rem}',
+  {blacklist: ['padding']}));
+
+test('should process whitelist properties only', t => run(t,
+  '.test {padding-left: 1rem;padding: 1rem 2rem 3rem 4rem}',
+
+  '.test {padding-left: 1rem}'
++ '[dir=ltr] .test {padding: 1rem 2rem 3rem 4rem}'
++ '[dir=rtl] .test {padding: 1rem 4rem 3rem 2rem}',
+  {whitelist: ['padding']}));

@@ -313,8 +313,18 @@ gulp.src( 'style.css' )
 
 * `removeComments` (default: `true`): remove `rtl:*` comments after process them
 
-* `fromRTL`: assume all styles are written in RTL direction and generate corresponding LTR styles for them
+* `fromRTL` (default: `false`): assume all styles are written in RTL direction and generate corresponding LTR styles for them
 
+* `blacklist`: the array of css properties which processing will be ignored
+    Example:
+    ```js
+    ['padding-left', 'padding-right']
+    ```
+* `whitelist`: the array of css properties which (and only them) will be processed
+    Example:
+    ```js
+    ['margin', 'border-color']
+    ```
 ## Thanks
 Great thanks to projects:
 * [PostCSS][PostCSS]

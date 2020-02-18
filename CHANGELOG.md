@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.7.0] - 2020-02-19
+- Supported `blacklist` and `whitelist` options
+
 ## [1.6.0] - 2020-02-19
 - Supported `:as` directive
 
