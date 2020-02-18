@@ -270,3 +270,17 @@ test('Should not swap "left" and "right" subparts of selectors', t => run(t,
 
   '[dir=ltr] .arrowLeft { margin-right: -3px }'
   + '[dir=rtl] .arrowLeft { margin-left: -3px }'));
+
+test('Should respect multiline values', t => run(t,
+  `.multiline {
+    background: rgba(0, 0, 0, 0, .5),
+      linear-gradient(to right, transparent, #000);
+  }`,
+
+  `[dir=ltr] .multiline {
+    background: rgba(0, 0, 0, 0, .5),
+      linear-gradient(to right, transparent, #000);
+  }[dir=rtl] .multiline {
+    background: rgba(0, 0, 0, 0, .5),
+      linear-gradient(to left, transparent, #000);
+  }`));
