@@ -12,6 +12,7 @@ const {isSelectorHasDir} = require('./selectors');
 module.exports = postcss.plugin('postcss-rtl', options => (css) => {
   const keyframes = [];
 
+  options = validateOptions(options);
   const whitelist = new Set(options.whitelist);
   const blacklist = new Set(options.blacklist);
 
@@ -20,8 +21,6 @@ module.exports = postcss.plugin('postcss-rtl', options => (css) => {
     const isAllowedByBlacklist = !options.blacklist || !blacklist.has(prop);
     return isAllowedByWhitelist && isAllowedByBlacklist;
   };
-
-  options = validateOptions(options);
 
   const handleIgnores = (removeComments = false) => {
     let isIgnored = false;

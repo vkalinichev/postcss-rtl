@@ -6,7 +6,7 @@ import plugin from './index';
 const normalize = cssString => cssString
   .replace(/} /g, '}'); /* fix extra space added by `postcss-import` */
 
-const run = (t, input, output, opts = {}) => postcss([
+const run = (t, input, output, opts) => postcss([
   postcssImport,
   plugin(opts),
 ])
