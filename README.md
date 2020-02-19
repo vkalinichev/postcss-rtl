@@ -29,6 +29,7 @@ Use one file for both directions!
     * [Simple properties](#simple-properties)
     * [Animations](#animations)
     * [Value directives](#value-directives)
+    * [Property directives](#property-directives)
     * [Ignoring specific declarations](#ignoring-specific-declarations)
 * [Usage](#usage)
     * [With Webpack](#with-webpack)
