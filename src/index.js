@@ -130,7 +130,7 @@ module.exports = postcss.plugin('postcss-rtl', options => (css) => {
   };
 
   const handlePropAsDirective = (decl, ltrDecls, rtlDecls) => {
-    const between = (decl.raws.between || {});
+    const {between} = decl.raws;
     if (!between) return false;
 
     const propAsDirective = /\/\*!? *rtl *: *as *: *([\S| ]*?) *\*\//;
