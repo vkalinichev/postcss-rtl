@@ -3,7 +3,7 @@ const rtlcss = require('rtlcss');
 const getProcessedKeyframeValue = (decl, keyframes = [], dir) => {
   let {value} = decl;
   keyframes.forEach((keyframe) => {
-    const nameRegex = new RegExp(`(^|\\s)${keyframe}($|\\s)`);
+    const nameRegex = new RegExp(`(^|\\s)${keyframe}($|\\s)`, 'g');
     if (!value.match(nameRegex)) return;
     value = value.replace(nameRegex, ` ${keyframe}-${dir} `);
   });

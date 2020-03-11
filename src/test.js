@@ -192,6 +192,18 @@ test('Should add direction to flippable keyframes-animations', t => run(t,
   '@keyframes bar-ltr { 100% { transform: rotate(360deg); } }'
   + '@keyframes bar-rtl { 100% { transform: rotate(-360deg); } }'));
 
+test('Should handle multiple keyframes-animations', t => run(t,
+  '.loader {animation: load6 1.7s infinite ease, spinner 1.7s infinite ease;}'
++ '@keyframes load6 { 100% { transform: rotate(1deg) } }'
++ '@keyframes spinner { 100% { transform: rotate(-1deg) } }',
+
+  '[dir=ltr] .loader {animation:  load6-ltr 1.7s infinite ease, spinner-ltr 1.7s infinite ease;}'
++ '[dir=rtl] .loader {animation:  load6-rtl 1.7s infinite ease, spinner-rtl 1.7s infinite ease;}'
++ '@keyframes load6-ltr { 100% { transform: rotate(1deg) } }'
++ '@keyframes load6-rtl { 100% { transform: rotate(-1deg) } }'
++ '@keyframes spinner-ltr { 100% { transform: rotate(-1deg) } }'
++ '@keyframes spinner-rtl { 100% { transform: rotate(1deg) } }'));
+
 test('Should ignore keyframes-animation prefixed with /* rtl:ignore */', t => run(t,
   '/* rtl:ignore */ @keyframes bar { 100% { transform: rotate(360deg); } }',
   '@keyframes bar { 100% { transform: rotate(360deg); } }'));
@@ -321,3 +333,4 @@ test('should process whitelist properties only', t => run(t,
 + '[dir=ltr] .test {padding: 1rem 2rem 3rem 4rem}'
 + '[dir=rtl] .test {padding: 1rem 4rem 3rem 2rem}',
   {whitelist: ['padding']}));
+
