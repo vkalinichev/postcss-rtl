@@ -333,4 +333,3 @@ test('should process whitelist properties only', t => run(t,
 + '[dir=ltr] .test {padding: 1rem 2rem 3rem 4rem}'
 + '[dir=rtl] .test {padding: 1rem 4rem 3rem 2rem}',
   {whitelist: ['padding']}));
-
