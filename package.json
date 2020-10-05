@@ -25,6 +25,7 @@
     "lib"
   ],
   "dependencies": {
+    "postcss": "^7.0.27",
     "rtlcss": "2.5.0"
   },
   "devDependencies": {
@@ -35,7 +36,6 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.20.1",
-    "postcss": "^7.0.27",
     "postcss-import": "^12.0.1"
   },
   "scripts": {
