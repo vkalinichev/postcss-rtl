@@ -1,5 +1,8 @@
 # Change Log
 
+## [2.0.0] - 20xx-xx-xx
+- Support Postcss v8.0.0 (thanks to [@mjhenkes](https://github.com/mjhenkes))
+
 ## [1.7.0] - 2020-02-19
 - Supported `blacklist` and `whitelist` options
 

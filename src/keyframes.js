@@ -1,10 +1,7 @@
-const postcss = require('postcss');
-
-const {unprefixed} = postcss.vendor;
 const {rtlifyDecl} = require('./decls');
 const {rtlifyRule} = require('./rules');
 
-const isKeyframeRule = rule => rule.type === 'atrule' && unprefixed(rule.name) === 'keyframes';
+const isKeyframeRule = rule => rule.type === 'atrule' && rule.name.replace(/^-\w+-/, '') === 'keyframes';
 
 const isKeyframeAlreadyProcessed = rule => !!rule.params.match(/-ltr$|-rtl$/);
 
