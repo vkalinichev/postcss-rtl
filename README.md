@@ -1,5 +1,20 @@
 # PostCSS-RTL
 
+---
+
+## ⚠️ Unmaintained ⚠️
+
+The project is no longer maintained by the author.
+
+It still may be helpful for MVP or small projects but for large projects it will be better
+to choose [`rtl.css`](https://github.com/MohammadYounes/rtlcss) (which this plugins uses under the hood) directly.
+
+If you want to take care of this repo/npm package, you can contact author:
+- telegram: https://t.me/vkalinichev
+- mail: me@vkalinichev.com
+- or [create issue](https://github.com/vkalinichev/postcss-rtl/issues/new) in this repo
+
+---
 [![npm][npm-img]][npm]
 [![Build Status][ci-img]][ci]
 [![npm][npm-dwnlds-img]][npm]
