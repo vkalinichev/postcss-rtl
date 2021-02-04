@@ -3,7 +3,6 @@ module.exports = ({prefix}) => ({
     prefixes: {
       ltr: `[${prefix}=ltr]`,
       rtl: `[${prefix}=rtl]`,
-      dir: `[${prefix}]`,
     },
     regex: new RegExp(`\\[${prefix}(=(\\w+|"\\w+"))?\\]`),
   },
@@ -11,7 +10,6 @@ module.exports = ({prefix}) => ({
     prefixes: {
       ltr: `.${prefix}-ltr`,
       rtl: `.${prefix}-rtl`,
-      dir: `.${prefix}`,
     },
     regex: new RegExp(`\\.${prefix}(-\\w+)?`),
   },
