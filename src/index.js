@@ -9,7 +9,7 @@ const {getDirRule, processSrcRule} = require('./rules');
 const {rtlifyDecl, ltrifyDecl} = require('./decls');
 const {isSelectorHasDir} = require('./selectors');
 
-module.exports = postcss.plugin('postcss-rtl', options => (css) => {
+module.exports = postcss.plugin('postcss-rtl', (options) => (css) => {
   const keyframes = [];
 
   options = validateOptions(options);
@@ -90,7 +90,7 @@ module.exports = postcss.plugin('postcss-rtl', options => (css) => {
 
     // Extract directive values using RegExp.
     const values = [valuePrependDirective, valueAppendDirective, valueReplacementDirective]
-      .map(regEx => (raw.match(regEx) || {})[1]);
+      .map((regEx) => (raw.match(regEx) || {})[1]);
 
     const [prependValue, appendValue, replaceValue] = values;
 
