@@ -25,14 +25,14 @@
     "lib"
   ],
   "dependencies": {
-    "rtlcss": "2.5.0"
+    "rtlcss": "3.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
     "ava": "^2.4.0",
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.8.0",
+    "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.20.1",
     "postcss": "^7.0.27",
@@ -46,6 +46,6 @@
     "test": "ava ./src/test.js"
   },
   "engines": {
-    "node": ">=0.12"
+    "node": "^14.0.0"
   }
 }
