@@ -31,19 +31,19 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",
-    "@babel/preset-env": "^7.8.4",
-    "ava": "^2.4.0",
+    "@babel/preset-env": "^7.20.2",
     "babel-eslint": "^10.0.3",
     "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.20.1"    
+    "eslint-plugin-import": "^2.20.1",
+    "jest": "^29.3.1"
   },
   "scripts": {
     "build": "babel ./src --out-dir ./lib",
-    "lint": "eslint ./src",
+    "lint": "eslint ./src --fix",
     "prepare": "npm run lint && npm run build && npm test",
-    "start": "ava --watch ./src/test.js",
-    "test": "ava ./src/test.js"
+    "start": "jest --watch",
+    "test": "jest"
   },
   "engines": {
     "node": "^14.0.0"
