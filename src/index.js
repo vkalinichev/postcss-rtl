@@ -1,5 +1,3 @@
-const postcss = require('postcss');
-
 const affectedProps = require('./affected-props');
 const {validateOptions} = require('./options');
 const {
@@ -9,7 +7,7 @@ const {getDirRule, processSrcRule} = require('./rules');
 const {rtlifyDecl, ltrifyDecl} = require('./decls');
 const {isSelectorHasDir} = require('./selectors');
 
-module.exports = postcss.plugin('postcss-rtl', (options) => (css) => {
+const plugin = (options) => (css) => {
   const keyframes = [];
 
   options = validateOptions(options);
@@ -225,4 +223,8 @@ module.exports = postcss.plugin('postcss-rtl', (options) => (css) => {
     processSrcRule(rule, options);
   });
   return false;
-});
+};
+plugin.postcss = true;
+plugin.postcssPlugin = 'postcss-rtl';
+
+module.exports = plugin;

@@ -1,6 +1,7 @@
-const postcss = require('postcss');
+function unprefixed(prop) {
+  return prop.replace(/^-\w+-/, '');
+}
 
-const {unprefixed} = postcss.vendor;
 const {rtlifyDecl} = require('./decls');
 const {rtlifyRule} = require('./rules');
 
