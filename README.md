@@ -200,7 +200,7 @@ To transform declaration values use value directives:
 
 To transform declaration property name use property directives:
 
-* `/* rtl:as:{prop} */` - to process the property as {prop}. Usable for custom properties
+* `/* rtl:as:{prop} */` - to process the property as {prop}. Usable for custom properties (uses [rtlcss aliases][aliases documentation] under the hood)
 
 **Source**
 
@@ -341,6 +341,13 @@ gulp.src( 'style.css' )
     ```js
     ['margin', 'border-color']
     ```
+* `aliases`: check rtlcss [aliases documentation][aliases documentation]
+    Example:
+    ```js
+    {
+        `--spacing`: 'padding'
+    }
+    ```
 ## Thanks
 Great thanks to projects:
 * [PostCSS][PostCSS]
@@ -349,3 +356,4 @@ Great thanks to projects:
 [PostCSS]: https://github.com/postcss/postcss
 [RTLCSS]: https://github.com/MohammadYounes/rtlcss
 [rtlcss-directives]: http://rtlcss.com/learn/getting-started/why-rtlcss/#processing-directives
+[aliases documentation]: https://rtlcss.com/learn/usage-guide/aliases/

@@ -130,6 +130,7 @@ module.exports = postcss.plugin('postcss-rtl', (options) => (css) => {
   };
 
   const handlePropAsDirective = (decl, ltrDecls, rtlDecls) => {
+    if (decl.prop.indexOf('--') < 0) return false;
     const {between} = decl.raws;
     if (!between) return false;
 
@@ -138,12 +139,26 @@ module.exports = postcss.plugin('postcss-rtl', (options) => (css) => {
 
     if (prop) {
       ltrDecls.push(ltrifyDecl(decl, keyframes));
-      const {value} = rtlifyDecl(decl.clone({prop}), keyframes);
+      const declClone = decl.clone({prop});
+      declClone.source.input.css = declClone.source.input.css.replace(between, ': ');
+      declClone.raws.between = ':';
+      const {value} = rtlifyDecl(declClone, keyframes, {aliases: { [decl.prop] : prop}});
       const clone = decl.clone({value});
       rtlDecls.push(clone);
       return true;
     }
     return false;
+  };
+
+  const handleAliases = (decl, ltrDecls, rtlDecls) => {
+    if (!options.aliases) return false;
+    if (!options.aliases[decl.prop]) return false;
+
+    ltrDecls.push(ltrifyDecl(decl, keyframes));
+    const {value} = rtlifyDecl(decl, keyframes, options);
+    const clone = decl.clone({value});
+    rtlDecls.push(clone);
+    return true;
   };
 
   // Simple rules (includes rules inside @media-queries)
@@ -166,6 +181,7 @@ module.exports = postcss.plugin('postcss-rtl', (options) => (css) => {
       // Is there a value directive?
       if (handleValueDirectives(decl, ltrDecls, rtlDecls)) return;
       if (handlePropAsDirective(decl, ltrDecls, rtlDecls)) return;
+      if (handleAliases(decl, ltrDecls, rtlDecls)) return;
       if (!isAllowedProp(decl.prop)) return;
 
       const rtl = rtlifyDecl(decl, keyframes);
