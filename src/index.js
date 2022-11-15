@@ -142,7 +142,7 @@ module.exports = postcss.plugin('postcss-rtl', (options) => (css) => {
       const declClone = decl.clone({prop});
       declClone.source.input.css = declClone.source.input.css.replace(between, ': ');
       declClone.raws.between = ':';
-      const {value} = rtlifyDecl(declClone, keyframes, {aliases: { [decl.prop] : prop}});
+      const {value} = rtlifyDecl(declClone, keyframes, {aliases: {[decl.prop]: prop}});
       const clone = decl.clone({value});
       rtlDecls.push(clone);
       return true;

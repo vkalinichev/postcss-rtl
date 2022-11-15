@@ -316,8 +316,7 @@ test('rtl aliases', (t) => run(t,
 
   '[dir=ltr]:root { --padding: 1px 2px 3px 4px }'
 + '[dir=rtl]:root { --padding: 1px 4px 3px 2px }',
-  { aliases: { '--padding': 'padding' } })
-);
+  {aliases: {'--padding': 'padding'}}));
 
 test('should ignore ignored @import', (t) => run(t,
   '/* rtl:begin:ignore */'
