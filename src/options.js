@@ -7,11 +7,13 @@ const defaultOptions = {
   removeComments: true, // remove comments after process them
   blacklist: undefined, // blacklist for css properties
   whitelist: undefined, // whitelist for css properties
+  aliases: undefined,
 };
 
 /* eslint-disable no-console */
 const validateOptions = (options = {}) => {
   const {
+    aliases,
     addPrefixToSelector,
     fromRTL,
     onlyDirection,
@@ -57,20 +59,25 @@ const validateOptions = (options = {}) => {
     console.warn('Incorrect fromRTL option. Must be a boolean');
   }
 
-  if (blacklist && (!Array.isArray(blacklist) || blacklist.some(prop => typeof prop !== 'string'))) {
+  if (blacklist && (!Array.isArray(blacklist) || blacklist.some((prop) => typeof prop !== 'string'))) {
     fixedOptions.blacklist = defaultOptions.blacklist;
     console.warn('Incorrect blacklist option. Must be an array of strings');
   }
 
-  if (whitelist && (!Array.isArray(whitelist) || whitelist.some(prop => typeof prop !== 'string'))) {
+  if (whitelist && (!Array.isArray(whitelist) || whitelist.some((prop) => typeof prop !== 'string'))) {
     fixedOptions.whitelist = defaultOptions.whitelist;
     console.warn('Incorrect whitelist option. Must be an array of strings');
   }
+  if (aliases && aliases instanceof Object !== true) {
+    fixedOptions.aliases = defaultOptions.aliases;
+    console.warn('Incorrect aliases option. Must be record of strings');
+  }
 
-  return Object.assign({},
-    defaultOptions,
-    options,
-    fixedOptions);
+  return {
+    ...defaultOptions,
+    ...options,
+    ...fixedOptions,
+  };
 };
 /* eslint-enable no-console */
 

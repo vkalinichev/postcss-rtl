@@ -10,13 +10,13 @@ const getProcessedKeyframeValue = (decl, keyframes = [], dir) => {
   return value;
 };
 
-const rtlifyDecl = (decl, keyframes) => {
+const rtlifyDecl = (decl, keyframes, options) => {
   let {prop, value} = decl;
 
   if (decl.prop.match(/animation/)) {
     value = getProcessedKeyframeValue(decl, keyframes, 'rtl');
   } else {
-    const rtlResult = rtlcss.process(decl, null, null);
+    const rtlResult = rtlcss.process(decl, options);
 
     if (rtlResult === decl.toString()) {
       return null;

@@ -1,5 +1,13 @@
 # Change Log
 
+## [2.0.0] - 2022-11-23 ([#84](https://github.com/vkalinichev/postcss-rtl/pull/84))
+- Aligned with postcss plugin API
+- Updated dependecies
+- Added support for aliases
+### Breaking changes:
+- Updated postcss to version 8
+- Stopped support for node versions below 14
+
 ## [1.7.0] - 2020-02-19
 - Supported `blacklist` and `whitelist` options
 

@@ -25,7 +25,7 @@ const setRuleDir = (rule, dir, options) => {
 };
 
 const rtlifyRule = (rule) => {
-  const rtlResult = rtlcss.process(rule, null, null);
+  const rtlResult = rtlcss.process(rule);
 
   return (rtlResult !== rule.toString()) ? rtlResult : false;
 };

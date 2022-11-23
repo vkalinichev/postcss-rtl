@@ -1,14 +1,15 @@
-const postcss = require('postcss');
+function unprefixed(prop) {
+  return prop.replace(/^-\w+-/, '');
+}
 
-const {unprefixed} = postcss.vendor;
 const {rtlifyDecl} = require('./decls');
 const {rtlifyRule} = require('./rules');
 
-const isKeyframeRule = rule => rule.type === 'atrule' && unprefixed(rule.name) === 'keyframes';
+const isKeyframeRule = (rule) => rule.type === 'atrule' && unprefixed(rule.name) === 'keyframes';
 
-const isKeyframeAlreadyProcessed = rule => !!rule.params.match(/-ltr$|-rtl$/);
+const isKeyframeAlreadyProcessed = (rule) => !!rule.params.match(/-ltr$|-rtl$/);
 
-const isKeyframeSymmetric = rule => !rtlifyRule(rule);
+const isKeyframeSymmetric = (rule) => !rtlifyRule(rule);
 
 const rtlifyKeyframe = (rule, options) => {
   const ruleName = rule.params;
