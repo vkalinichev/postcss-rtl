@@ -1,6 +1,6 @@
 # Change Log
 
-## [2.0.0] - 2022-11-23
+## [2.0.0] - 2022-11-23 ([#84](https://github.com/vkalinichev/postcss-rtl/pull/84))
 - Aligned with postcss plugin API
 - Updated dependecies
 - Added support for aliases
